@@ -5,6 +5,10 @@ const nextConfig = {
     experimental: {
         serverActions: true,
     },
+    reactStrictMode: true,
+    images: {
+        domains: ["img.clerk.com"],
+    },
 }
 
 export default nextConfig;
