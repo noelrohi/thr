@@ -23,7 +23,11 @@ export default function RootLayout({
   const { userId } = auth();
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en" suppressHydrationWarning>
         <head />
         <body
@@ -32,8 +36,19 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+          <ThemeProvider attribute="class" defaultTheme="dark">
+            <main className="w-screen flex justify-center items-center bg-neutral-950">
+              <div
+                className={cn(
+                  "min-h-screen w-full text-base max-w-[500px] relative",
+                  !userId
+                    ? "flex flex-col justify-center items-center pb-0"
+                    : "pb-14"
+                )}
+              >
+                {children}
+              </div>
+            </main>
           </ThemeProvider>
           <Toaster />
         </body>
