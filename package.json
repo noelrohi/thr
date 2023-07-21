@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ui-add": "pnpm dlx shadcn-ui add"
+    "ui-add": "pnpm dlx shadcn-ui add",
+    "postinstall": "drizzle-kit generate:mysql",
+    "db:push": "drizzle-kit push:mysql",
+    "db:introspect": "drizzle-kit introspect:mysql"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.23.0",
@@ -23,8 +26,10 @@
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
+    "bad-words": "^3.0.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "dotenv": "^16.3.1",
     "drizzle-orm": "^0.27.2",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.11",
@@ -42,6 +47,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/bad-words": "^3.0.1",
     "drizzle-kit": "^0.19.10"
   }
 }
