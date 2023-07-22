@@ -1,13 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
 import SignInButton from "@/components/auth/buttons";
-import { currentUser } from "@clerk/nextjs";
-import { db } from "@/db";
-import { threads, users } from "@/db/schema";
-import { InferModel, eq, sql } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import Nav from "@/components/nav";
 import HomePosts from "@/components/thread/homePosts";
+import { db } from "@/db";
+import { threads, users } from "@/db/schema";
+import { currentUser } from "@clerk/nextjs";
+import { desc, eq, sql } from "drizzle-orm";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const revalidate = 0;
 
@@ -77,6 +77,7 @@ export default async function Page() {
         },
       },
     },
+    orderBy: [desc(threads.createdAt)],
     where: sql`${threads.parentId} IS NULL`,
   });
 

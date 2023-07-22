@@ -23,7 +23,7 @@ export function InfoModal() {
             <DialogTitle>About This Project</DialogTitle>
           </DialogHeader>
 
-          <div className="text-neutral-600 leading-relaxed">
+          <div className="text-muted-foreground leading-relaxed">
             A threads clone made by{" "}
             <a
               href="https://twitter.com/ishaandey_"
@@ -40,7 +40,7 @@ export function InfoModal() {
             with Next.js server components, Vercel Postgres, shadcn UI, Clerk,
             and Prisma.
           </div>
-          <div className="text-neutral-600 leading-relaxed">
+          <div className="text-muted-foreground leading-relaxed">
             It&apos;s mostly complete & working, with a few small bugs/missing
             features (see GitHub issues for details).
           </div>

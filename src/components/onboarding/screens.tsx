@@ -27,7 +27,7 @@ export function Screens({
 
         <div className="mb-12 space-y-1">
           <div className="text-2xl font-semibold text-center">Profile</div>
-          <div className="text-neutral-600 text-center">
+          <div className="text-muted-foreground text-center">
             Customize your Threads profile.
           </div>
         </div>
@@ -52,7 +52,7 @@ export function Screens({
 
       <div className="mb-12 space-y-1">
         <div className="text-2xl font-semibold text-center">Privacy</div>
-        <div className="text-neutral-600 text-center">
+        <div className="text-muted-foreground text-center">
           Your privacy on Threads and Instagram can be different.
         </div>
       </div>

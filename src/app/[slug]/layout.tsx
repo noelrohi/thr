@@ -1,22 +1,22 @@
 import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import Nav from "@/components/nav";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Instagram } from "lucide-react";
 
-import { InfoModal } from "@/components/profile/info";
-import SelfShare from "@/components/profile/selfShare";
-import { nFormatter } from "@/lib/utils";
-import SignOut from "@/components/profile/signOut";
+import UserAvatar from "@/components/profile/avatar";
 import { EditModal } from "@/components/profile/edit";
 import FollowButton from "@/components/profile/follow";
+import { InfoModal } from "@/components/profile/info";
+import SelfShare from "@/components/profile/selfShare";
+import SignOut from "@/components/profile/signOut";
 import { db } from "@/db";
 import { followers, users } from "@/db/schema";
+import { nFormatter } from "@/lib/utils";
 import { eq } from "drizzle-orm";
-import UserAvatar from "@/components/profile/avatar";
+import ErrorWithNav from "@/components/error-with-nav";
 
 export default async function ProfilePageLayout({
   children,
@@ -39,40 +39,7 @@ export default async function ProfilePageLayout({
     where: eq(users.username, params.slug),
   });
 
-  //   return <div className="text-white">{JSON.stringify(getUser)}</div>;
-
-  if (!getUser) {
-    return (
-      <>
-        <Nav
-          create={{
-            id: "",
-            name: "",
-            image: "",
-          }}
-          username={null}
-        />
-        <div className="flex items-center justify-center w-full py-5">
-          <div className="h-9 w-9 bg-cover">
-            <Image
-              src={"/assets/threads.svg"}
-              width={64}
-              height={64}
-              alt="Threads logo"
-              className="min-h-full invert min-w-full object-cover"
-            />
-          </div>
-        </div>
-        <div className="font-semibold text-center mt-24">
-          Sorry, this page isn&apos;t available
-        </div>
-        <div className="text-center text-neutral-600 mt-4">
-          The link you followed may be broken, or the page may have been
-          removed.
-        </div>
-      </>
-    );
-  }
+  if (!getUser) return <ErrorWithNav />;
 
   const userFollowers = await db.query.followers.findMany({
     where: eq(followers.userId, getUser.clerkId),
@@ -116,26 +83,30 @@ export default async function ProfilePageLayout({
           {getUser.bio ? (
             <div className="pt-4 leading-relaxed">{getUser.bio}</div>
           ) : null}
-          <div className="py-4 text-neutral-600">
+          <div className="py-4 text-muted-foreground">
             {nFormatter(userFollowers.length, 1)}{" "}
             {userFollowers.length === 1 ? "follower" : "followers"}
           </div>
         </div>
 
-        <UserAvatar src={getUser.image ?? ""} name={getUser.name ?? ""} />
+        <UserAvatar
+          src={getUser.image}
+          name={getUser.name}
+          className="w-14 h-14"
+        />
       </div>
 
       {self ? (
         <div className="w-full space-x-2 flex px-3">
           <EditModal data={getUser} />
-          <SelfShare name={getUser.name ?? ""} username={getUser.username} />
+          <SelfShare name={getUser.name} username={getUser.username} />
         </div>
       ) : (
         <div className="w-full px-3">
           <FollowButton
             id={getSelf.clerkId}
             followingId={getUser.clerkId}
-            name={getUser.name ?? ""}
+            name={getUser.name}
             isFollowing={isFollowing}
           />
         </div>

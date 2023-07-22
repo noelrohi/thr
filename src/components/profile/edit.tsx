@@ -112,7 +112,7 @@ export function EditModal({ data }: { data: Users }) {
             disabled={name.length === 0 || name.length > 16 || bio.length > 100}
           >
             {isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             ) : (
               "Update"
             )}

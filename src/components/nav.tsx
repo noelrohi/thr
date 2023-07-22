@@ -31,31 +31,35 @@ export default function Nav({
   const path = usePathname();
 
   return (
-    <div className="w-full max-w-[500px] bg-neutral-950 z-50 fixed bottom-0 flex items-center justify-around p-3 pb-4">
+    <div className="w-full max-w-[500px] bg-background z-50 fixed bottom-0 flex items-center justify-around p-3 pb-4">
       <Link href="/">
-        <Home className={`w-6 h-6 ${path === "/" ? "" : "text-neutral-600"}`} />
+        <Home
+          className={`w-6 h-6 ${path === "/" ? "" : "text-muted-foreground"}`}
+        />
       </Link>
       <Link href="/search">
         <Search
-          className={`w-6 h-6 ${path === "/search" ? "" : "text-neutral-600"}`}
+          className={`w-6 h-6 ${
+            path === "/search" ? "" : "text-muted-foreground"
+          }`}
         />
       </Link>
       <Modal create={create} />
       <Link href="/activity">
         <Heart
           className={`w-6 h-6 ${
-            path === "/activity" ? "" : "text-neutral-600"
+            path === "/activity" ? "" : "text-muted-foreground"
           }`}
         />
       </Link>
       <Link href={`/${username}`}>
         {/* <SignOutButton> */}
         {username === null ? (
-          <User2 className="w-6 h-6 text-neutral-600" />
+          <User2 className="w-6 h-6 text-muted-foreground" />
         ) : (
           <User2
             className={`w-6 h-6 ${
-              path === `/${username}` ? "" : "text-neutral-600"
+              path === `/${username}` ? "" : "text-muted-foreground"
             }`}
           />
         )}
@@ -79,7 +83,7 @@ export function Modal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Edit className={`w-[22px] h-[22px] text-neutral-600`} />
+        <Edit className={`w-[22px] h-[22px] text-muted-foreground`} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -121,7 +125,7 @@ export function Create({
     <div>
       <div className="space-x-2 flex font-light">
         <div className="flex flex-col items-center justify-start">
-          <div className="w-8 h-8 rounded-full bg-neutral-600 overflow-hidden">
+          <div className="w-8 h-8 rounded-full  overflow-hidden">
             <Image
               src={create.image}
               height={32}
@@ -130,7 +134,7 @@ export function Create({
               alt={create.name + "'s profile image"}
             />
           </div>
-          <div className="w-0.5 grow mt-2 rounded-full bg-neutral-800" />
+          <div className="w-0.5 grow mt-2 rounded-full bg-muted " />
         </div>
         <div className="w-full">
           <div className="font-semibold text-left">Me</div>
@@ -140,10 +144,10 @@ export function Create({
               if (e.target.value.length > 200) return;
               setThread(e.target.value);
             }}
-            className="mt-1 mini-scrollbar text-base/relaxed resize-none h-16 bg-transparent w-full placeholder:text-neutral-600 pb-1 outline-none focus:border-b border-b-neutral-700"
+            className="mt-1 mini-scrollbar text-base/relaxed resize-none h-16 bg-transparent w-full placeholder:text-muted-foreground pb-1 outline-none focus:border-b border-b-neutral-700"
             placeholder="Start a thread..."
           />
-          <div className="mt-1 text-end font-medium text-xs text-neutral-600">
+          <div className="mt-1 text-end font-medium text-xs text-muted-foreground">
             {thread.length}/200
           </div>
           {/* for adding attachments in the future */}
@@ -160,7 +164,7 @@ export function Create({
         }}
       >
         {isPending ? (
-          <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         ) : (
           "Post"
         )}

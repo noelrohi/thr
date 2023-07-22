@@ -51,14 +51,14 @@ export default function HomePosts({ posts }: { posts: ExtendedThread[] }) {
       })}
       <div className="w-full py-4 flex justify-center">
         {items.length === 0 ? (
-          <div className="text-neutral-600 mt-4 text-center leading-loose">
+          <div className="text-muted-foreground mt-4 text-center leading-loose">
             There are no threads... <br />
             Try making one!
           </div>
         ) : null}
 
         {loading ? (
-          <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         ) : null}
       </div>
     </>

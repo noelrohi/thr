@@ -25,7 +25,7 @@ export default function FollowButton({
     <Button
       onClick={(e) => {
         e.preventDefault();
-        toast(isFollowing ? "Unfollowed " + name : "Followed " + name);
+        toast.success(isFollowing ? "Unfollowed " + name : "Followed " + name);
         startTransition(() => {
           if (isFollowing) {
             unfollowUser(id, followingId, pathname);

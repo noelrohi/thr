@@ -10,6 +10,7 @@ import NameLink from "./nameLink";
 import { Threads } from "@/db/schema";
 import { ExtendedThread } from "@/types";
 import { redirect } from "next/navigation";
+import UserAvatar from "../profile/avatar";
 
 interface ItemProps {
   data: ExtendedThread;
@@ -38,17 +39,9 @@ export default function Item({
     <>
       <Link href={`/t/${data.id}`} className={mainClass}>
         <div className="flex flex-col items-center justify-between">
-          <div className="w-8 h-8 mt-1 rounded-full bg-neutral-600 overflow-hidden">
-            <Image
-              src={data.author?.image ?? ""}
-              height={32}
-              width={32}
-              className=""
-              alt={data.author?.name + "'s profile image"}
-            />
-          </div>
+          <UserAvatar src={data.author.image} name={data.author.name} />
           <div
-            className={`w-0.5 grow mt-2 rounded-full bg-neutral-800 relative ${
+            className={`w-0.5 grow mt-2 rounded-full bg-muted  relative ${
               parent ? "mb-5" : null
             }`}
           >
@@ -97,7 +90,7 @@ export default function Item({
           {comment ? null : (
             <>
               <Controls numPosts={posts ? posts.length : -1} data={data} />
-              <div className="flex text-neutral-600 items-center space-x-2">
+              <div className="flex text-muted-foreground items-center space-x-2">
                 {data.replies ? (
                   <div>
                     {data.replies.length}{" "}
@@ -105,7 +98,7 @@ export default function Item({
                   </div>
                 ) : null}
                 {data.replies && data.likes.length > 0 ? (
-                  <div className="w-1 h-1 rounded-full bg-neutral-600" />
+                  <div className="w-1 h-1 rounded-full " />
                 ) : null}
                 {data.likes.length > 0 ? (
                   <div>

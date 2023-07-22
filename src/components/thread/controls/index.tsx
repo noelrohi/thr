@@ -21,7 +21,7 @@ export default function Controls({
         <Like likes={likes} numPosts={numPosts} post={data.id} />
         <Modal data={data} />
         <Repost />
-        <Share name={data.author?.name!} post={data.id} />
+        <Share name={data.author?.name} post={data.id} />
       </div>
     </div>
   );

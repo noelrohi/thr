@@ -10,6 +10,7 @@ import { replyToThread } from "@/lib/actions/threadActions";
 import { toast } from "sonner";
 import { Threads } from "@/db/schema";
 import { ExtendedThread } from "@/types";
+import UserAvatar from "@/components/profile/avatar";
 
 export function Create({
   itemData,
@@ -40,16 +41,11 @@ export function Create({
     <div>
       <div className="space-x-2 flex font-light">
         <div className="flex flex-col items-center justify-start">
-          <div className="w-8 h-8 rounded-full bg-neutral-600 overflow-hidden">
-            <Image
-              src={user.imageUrl}
-              height={32}
-              width={32}
-              className=""
-              alt={user.fullName + "'s profile image"}
-            />
-          </div>
-          <div className="w-0.5 grow mt-2 rounded-full bg-neutral-800" />
+          <UserAvatar
+            src={user.imageUrl}
+            name={user.fullName ? user.fullName : user.firstName ?? ""}
+          />
+          <div className="w-0.5 grow mt-2 rounded-full bg-muted " />
         </div>
         <div className="w-full">
           <div className="font-semibold text-left">Me</div>
@@ -59,10 +55,10 @@ export function Create({
               if (e.target.value.length > 200) return;
               setComment(e.target.value);
             }}
-            className="mt-1 mini-scrollbar text-base/relaxed resize-none h-16 bg-transparent w-full placeholder:text-neutral-600 pb-1 outline-none focus:border-b border-b-neutral-700"
+            className="mt-1 mini-scrollbar text-base/relaxed resize-none h-16 bg-transparent w-full placeholder:text-muted-foreground pb-1 outline-none focus:border-b border-b-neutral-700"
             placeholder={`Reply to ${itemData.author.name ?? ""}...`}
           />
-          <div className="mt-1 text-end font-medium text-xs text-neutral-600">
+          <div className="mt-1 text-end font-medium text-xs text-muted-foreground">
             {comment.length}/200
           </div>
           {/* for adding attachments in the future */}
@@ -81,7 +77,7 @@ export function Create({
         }}
       >
         {isPending ? (
-          <Loader2 className="h-4 w-4 animate-spin text-neutral-600" />
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         ) : (
           "Post"
         )}
