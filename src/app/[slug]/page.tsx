@@ -2,7 +2,7 @@ import Item from "@/components/thread";
 import { db } from "@/db";
 import { threads } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import Link from "next/link";
 
 export default async function ProfilePage({
@@ -25,7 +25,7 @@ export default async function ProfilePage({
       },
     },
     orderBy: [desc(threads.createdAt)],
-    where: eq(threads.authorId, user.id),
+    where: and(eq(threads.authorId, user.id), sql`${threads.parentId} IS NULL`),
   });
 
   return (

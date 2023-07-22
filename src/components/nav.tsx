@@ -16,6 +16,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { createThread } from "@/lib/actions/threadActions";
+import UserAvatar from "./profile/avatar";
 
 export default function Nav({
   username,
@@ -125,15 +126,7 @@ export function Create({
     <div>
       <div className="space-x-2 flex font-light">
         <div className="flex flex-col items-center justify-start">
-          <div className="w-8 h-8 rounded-full  overflow-hidden">
-            <Image
-              src={create.image}
-              height={32}
-              width={32}
-              className=""
-              alt={create.name + "'s profile image"}
-            />
-          </div>
+          <UserAvatar src={create.image} name={`${create.name}'s avatar`} />
           <div className="w-0.5 grow mt-2 rounded-full bg-muted " />
         </div>
         <div className="w-full">
