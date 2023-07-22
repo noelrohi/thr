@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { likes, reposts, threads } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cleanup } from "@/lib/utils";
 
@@ -56,4 +56,24 @@ export async function unlikeThread(id: number, userId: string, path: string) {
     .where(and(eq(likes.threadId, id), eq(likes.userId, userId)));
 
   revalidatePath(path);
+}
+
+export async function loadMoreThreads(offset: number) {
+  const posts = await db.query.threads.findMany({
+    limit: 10,
+    offset: offset,
+    where: sql`${threads.parentId} IS NULL`,
+    with: {
+      likes: true,
+      parent: true,
+      author: true,
+      replies: {
+        with: {
+          author: true,
+        },
+      },
+    },
+    orderBy: [desc(threads.createdAt)],
+  });
+  return posts;
 }

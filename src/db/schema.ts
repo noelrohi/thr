@@ -8,7 +8,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
-import { InferModel } from "drizzle-orm";
+import { InferModel, relations } from "drizzle-orm";
 
 export const users = mysqlTable(
   "users",
@@ -22,7 +22,7 @@ export const users = mysqlTable(
     isEdited: boolean("isEedited").default(false),
     onboarded: boolean("onboarded").default(false),
     isPrivate: boolean("isPrivate").default(false),
-    role: text("role", { enum: ["USER", "ADMIN"] }),
+    role: text("role", { enum: ["USER", "ADMIN"] }).default("USER"),
     createdAt: timestamp("createdAt").defaultNow(),
     updatedAt: timestamp("updatedAt").onUpdateNow(),
   },
@@ -54,7 +54,7 @@ export const threads = mysqlTable(
   {
     id: serial("id").primaryKey(),
     content: text("content").notNull(),
-    authorId: varchar("authorId", { length: 191 }),
+    authorId: varchar("authorId", { length: 191 }).notNull(),
     parentId: int("parentId"),
     updatedAt: timestamp("updatedAt").onUpdateNow(),
     createdAt: timestamp("createdAt").defaultNow(),
@@ -64,6 +64,21 @@ export const threads = mysqlTable(
     parentIdx: index("parentId_idx").on(table.parentId),
   })
 );
+
+export const threadsRelations = relations(threads, ({ one, many }) => ({
+  likes: many(likes),
+  replies: many(threads, { relationName: "replies" }),
+  parent: one(threads, {
+    fields: [threads.parentId],
+    references: [threads.id],
+    relationName: "replies",
+  }),
+  reposts: many(reposts),
+  author: one(users, {
+    fields: [threads.authorId],
+    references: [users.clerkId],
+  }),
+}));
 
 export type Threads = InferModel<typeof threads>;
 
@@ -82,6 +97,13 @@ export const likes = mysqlTable(
 );
 export type Likes = InferModel<typeof likes>;
 
+export const likesRelations = relations(likes, ({ one }) => ({
+  threads: one(threads, {
+    fields: [likes.threadId],
+    references: [threads.id],
+  }),
+}));
+
 export const reposts = mysqlTable(
   "reposts",
   {
@@ -94,6 +116,13 @@ export const reposts = mysqlTable(
     threadIdx: index("threadId_idx").on(table.threadId),
   })
 );
+
+export const repostsRelations = relations(reposts, ({ one }) => ({
+  threads: one(threads, {
+    fields: [reposts.threadId],
+    references: [threads.id],
+  }),
+}));
 
 export type Reposts = InferModel<typeof reposts>;
 

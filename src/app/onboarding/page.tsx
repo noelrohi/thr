@@ -25,7 +25,7 @@ export default async function OnboardingLayout() {
     .where(eq(users.clerkId, authUser.id));
 
   if (getUser[0]?.isOnboarded) {
-    redirect("/onboarding");
+    redirect("/");
   }
   const clerkUser = await clerkClient.users.getUser(authUser.id);
 

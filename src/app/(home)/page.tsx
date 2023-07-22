@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import SignInButton from "@/components/auth/buttons";
 import { currentUser } from "@clerk/nextjs";
 import { db } from "@/db";
 import { threads, users } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { InferModel, eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { get } from "http";
 import Nav from "@/components/nav";
+import HomePosts from "@/components/thread/homePosts";
 
 export const revalidate = 0;
 
@@ -68,10 +67,18 @@ export default async function Page() {
   //   },
   // });
 
-  const posts = await db
-    .select()
-    .from(threads)
-    .where(sql`${threads.parentId} IS NULL`);
+  const posts = await db.query.threads.findMany({
+    with: {
+      likes: true,
+      author: true,
+      replies: {
+        with: {
+          author: true,
+        },
+      },
+    },
+    where: sql`${threads.parentId} IS NULL`,
+  });
 
   return (
     <>
@@ -95,10 +102,7 @@ export default async function Page() {
         </div>
       </div>
 
-      <div className="whitespace-pre text-xs">
-        {posts.length ? JSON.stringify(posts, null, 2) : "Empty"}
-      </div>
-      {/* <HomePosts posts={posts} /> */}
+      <HomePosts posts={posts} />
     </>
     // </div>
     // </main>
