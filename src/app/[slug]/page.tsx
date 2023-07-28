@@ -1,7 +1,6 @@
 import Item from "@/components/thread";
 import { db } from "@/db";
-import { threads } from "@/db/schema";
-import { currentUser } from "@clerk/nextjs";
+import { threads, users } from "@/db/schema";
 import { and, desc, eq, sql } from "drizzle-orm";
 import Link from "next/link";
 
@@ -10,8 +9,9 @@ export default async function ProfilePage({
 }: {
   params: { slug: string };
 }) {
-  const user = await currentUser();
-
+  const user = await db.query.users.findFirst({
+    where: eq(users.username, params.slug),
+  });
   if (!user) return null;
 
   const posts = await db.query.threads.findMany({
@@ -25,7 +25,10 @@ export default async function ProfilePage({
       },
     },
     orderBy: [desc(threads.createdAt)],
-    where: and(eq(threads.authorId, user.id), sql`${threads.parentId} IS NULL`),
+    where: and(
+      eq(threads.authorId, user.clerkId),
+      sql`${threads.parentId} IS NULL`
+    ),
   });
 
   return (
