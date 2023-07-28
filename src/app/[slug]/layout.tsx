@@ -1,22 +1,20 @@
 import { currentUser } from "@clerk/nextjs";
-import Image from "next/image";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
+import ErrorWithNav from "@/components/error-with-nav";
 import Nav from "@/components/nav";
-import { Badge } from "@/components/ui/badge";
-import { Instagram } from "lucide-react";
-
 import UserAvatar from "@/components/profile/avatar";
 import { EditModal } from "@/components/profile/edit";
 import FollowButton from "@/components/profile/follow";
 import { InfoModal } from "@/components/profile/info";
 import SelfShare from "@/components/profile/selfShare";
 import SignOut from "@/components/profile/signOut";
+import { Badge } from "@/components/ui/badge";
 import { db } from "@/db";
 import { followers, users } from "@/db/schema";
 import { nFormatter } from "@/lib/utils";
 import { eq } from "drizzle-orm";
-import ErrorWithNav from "@/components/error-with-nav";
+import { Instagram } from "lucide-react";
 
 export default async function ProfilePageLayout({
   children,
