@@ -1,12 +1,10 @@
 // import Image from "next/image";
 
-import MoreMenu from "./moreMenu";
-import Controls from "./controls";
-import { timeSince } from "@/lib/utils";
-import Timestamp from "./timestamp";
-import NameLink from "./nameLink";
 import { ExtendedThread } from "@/types";
+import Link from "next/link";
 import UserAvatar from "../profile/avatar";
+import Controls from "./controls";
+import MoreMenu from "./moreMenu";
 
 export default function MainItem({
   data,
@@ -22,7 +20,9 @@ export default function MainItem({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <UserAvatar src={data.author.image} name={data.author.name} />
-          <NameLink username={data.author.username} name={data.author.name} />
+          <Link href={`/${data.author.username}`} className="font-semibold">
+            {data.author.name}
+          </Link>
         </div>
         <div className="flex items-center space-x-2">
           <MoreMenu

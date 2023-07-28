@@ -1,16 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Others from "./others";
-import MoreMenu from "./moreMenu";
-import Controls from "./controls";
-import { timeSince } from "@/lib/utils";
-import Timestamp from "./timestamp";
-import NameLink from "./nameLink";
-import { Threads } from "@/db/schema";
 import { ExtendedThread } from "@/types";
-import { redirect } from "next/navigation";
 import UserAvatar from "../profile/avatar";
+import Controls from "./controls";
+import MoreMenu from "./moreMenu";
+import Others from "./others";
 
 interface ItemProps {
   data: ExtendedThread;
@@ -39,7 +34,9 @@ export default function Item({
     <>
       <Link href={`/t/${data.id}`} className={mainClass}>
         <div className="flex flex-col items-center justify-between">
-          <UserAvatar src={data.author.image} name={data.author.name} />
+          <Link href={`/${data.author.username}`}>
+            <UserAvatar src={data.author.image} name={data.author.name} />
+          </Link>
           <div
             className={`w-0.5 grow mt-2 rounded-full bg-muted  relative ${
               parent ? "mb-5" : null
@@ -63,10 +60,9 @@ export default function Item({
         </div>
         <div className="w-full space-y-1">
           <div className="w-full flex items-center justify-between">
-            <NameLink
-              username={data.author.username}
-              name={data.author.name ?? ""}
-            />
+            <Link href={`/${data.author.username}`} className="font-semibold">
+              {data.author.name}
+            </Link>
 
             {comment ? null : (
               <div className="flex items-center space-x-2">
