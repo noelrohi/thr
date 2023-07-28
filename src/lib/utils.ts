@@ -16,6 +16,11 @@ export const cleanup = (text: string) => {
   }
 };
 
+export const validateUsername = (text: string) => {
+  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9._]*[a-zA-Z0-9]$/;
+  return pattern.test(text);
+};
+
 export const timeSince = (date: Date) => {
   const d = new Date();
   const seconds = Math.floor((d.getTime() - date.getTime()) / 1000);

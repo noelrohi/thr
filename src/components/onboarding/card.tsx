@@ -11,6 +11,7 @@ import { AlertCircle } from "lucide-react";
 import Filter from "bad-words";
 import { UserData } from "@/types";
 import { toast } from "sonner";
+import { validateUsername } from "@/lib/utils";
 
 export function OnboardingProfileCard({
   userData,
@@ -53,7 +54,7 @@ export function OnboardingProfileCard({
                     appropriate username.
                   </div>
                 ) : null}
-                {username ? (
+                {!validateUsername(username) ? (
                   <div className="text-red-500 text-sm flex items-center leading-snug">
                     <AlertCircle className="min-w-[16px] min-h-[16px] mr-1" />{" "}
                     Only use lowercase letters, numbers, underscores, & dots
