@@ -6,8 +6,6 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import { ArrowUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
-import Tabs from "../tabs";
 
 export default async function RepliesPage({
   params,
