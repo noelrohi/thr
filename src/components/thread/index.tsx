@@ -32,7 +32,7 @@ export default function Item({
 
   return (
     <>
-      <Link href={`/t/${data.id}`} className={mainClass}>
+      <div className={mainClass}>
         <div className="flex flex-col items-center justify-between">
           <Link href={`/${data.author.username}`}>
             <UserAvatar src={data.author.image} name={data.author.name} />
@@ -74,7 +74,8 @@ export default function Item({
               </div>
             )}
           </div>
-          <div
+          <Link
+            href={`/t/${data.id}`}
             className={
               comment
                 ? "text-base/relaxed pb-3 text-left"
@@ -82,16 +83,16 @@ export default function Item({
             }
           >
             {data.content}
-          </div>
+          </Link>
           {comment ? null : (
             <>
               <Controls numPosts={posts ? posts.length : -1} data={data} />
               <div className="flex text-muted-foreground items-center space-x-2">
                 {data.replies ? (
-                  <div>
+                  <Link href={`/t/${data.id}`}>
                     {data.replies.length}{" "}
                     {data.replies.length === 1 ? "reply" : "replies"}
-                  </div>
+                  </Link>
                 ) : null}
                 {data.replies && data.likes.length > 0 ? (
                   <div className="w-1 h-1 rounded-full " />
@@ -106,7 +107,7 @@ export default function Item({
             </>
           )}
         </div>
-      </Link>
+      </div>
     </>
   );
 }
