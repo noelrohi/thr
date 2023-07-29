@@ -28,9 +28,9 @@ export default function Others({ replies }: { replies: ThreadWithUsers[] }) {
     return (
       <div className="w-8 h-8 relative mt-2">
         <UserAvatar
-          src={replies[0].author.image}
+          src={replies[1].author.image}
           className="w-[18px] h-[18px] absolute top-0 left-0 overflow-hidden"
-          name={replies[0].author.image + "'s profile image"}
+          name={replies[1].author.image + "'s profile image"}
         />
         <UserAvatar
           src={replies[0].author.image}
