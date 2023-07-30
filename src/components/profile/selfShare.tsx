@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env.mjs";
 import { Button } from "../ui/button";
 
 export default function SelfShare({
@@ -12,7 +13,7 @@ export default function SelfShare({
   const shareData = {
     title: "Threads",
     text: "Link to " + name + "'s post on Threads",
-    url: "http://localhost:3000/" + username,
+    url: `${env.NEXT_PUBLIC_APP_URL}/` + username,
   };
 
   return (

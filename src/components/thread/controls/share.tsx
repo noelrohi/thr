@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { env } from "@/env.mjs";
 import { Link, Send, Share } from "lucide-react";
 import { toast } from "sonner";
 
@@ -21,7 +22,7 @@ export default function ShareButton({
   const shareData = {
     title: "Threads",
     text: "Link to " + name + "'s post on Threads",
-    url: "http://localhost:3000/t/" + post,
+    url: `${env.NEXT_PUBLIC_APP_URL}/t/` + post,
   };
 
   return (
