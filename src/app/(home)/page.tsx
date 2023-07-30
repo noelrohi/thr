@@ -1,8 +1,9 @@
-import SignInButton from "@/components/auth/buttons";
 import Nav from "@/components/nav";
 import HomePosts from "@/components/thread/homePosts";
+import { buttonVariants } from "@/components/ui/button";
 import { db } from "@/db";
 import { threads, users } from "@/db/schema";
+import { cn } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs";
 import { desc, eq, sql } from "drizzle-orm";
 import Image from "next/image";
@@ -28,8 +29,21 @@ export default async function Page() {
         </div>
         <div className="gradient mt-4 mb-12 text-4xl font-bold">Threads</div>
 
-        <Link href="/sign-up" className="w-full px-6"></Link>
-        <SignInButton className="w-full px-6 mt-2">Sign In</SignInButton>
+        <Link
+          href="/sign-up"
+          className={cn(buttonVariants({ variant: "outline" }), "w-full px-6")}
+        >
+          Sign Up
+        </Link>
+        <Link
+          href="/sign-in"
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "w-full px-6 mt-2"
+          )}
+        >
+          Sign In
+        </Link>
       </>
     );
 
@@ -47,25 +61,6 @@ export default async function Page() {
   if (!getUser[0]?.isOnboarded) {
     redirect("/onboarding");
   }
-  // const posts = await prisma.post.findMany({
-  //   take: 20,
-  //   orderBy: {
-  //     createdAt: "desc",
-  //   },
-  //   include: {
-  //     author: true,
-  //     children: {
-  //       include: {
-  //         author: true,
-  //       },
-  //     },
-  //     parent: true,
-  //     likes: true,
-  //   },
-  //   where: {
-  //     parent: null,
-  //   },
-  // });
 
   const posts = await db.query.threads.findMany({
     with: {
@@ -105,7 +100,5 @@ export default async function Page() {
 
       <HomePosts posts={posts} />
     </>
-    // </div>
-    // </main>
   );
 }
