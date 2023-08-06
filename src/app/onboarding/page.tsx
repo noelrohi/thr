@@ -28,13 +28,14 @@ export default async function OnboardingLayout() {
     redirect("/");
   }
   const clerkUser = await clerkClient.users.getUser(authUser.id);
+  const name = `${clerkUser.firstName ?? ""} ${clerkUser.lastName ?? ""}`;
 
   const userData = {
     id: clerkUser.id,
     username: getUser[0]?.username
       ? getUser[0]?.username
       : clerkUser.id.slice(5),
-    name: clerkUser.firstName + " " + clerkUser.lastName,
+    name,
     bio: getUser[0]?.bio ? getUser[0]?.bio : "",
     image: getUser[0]?.image ? getUser[0]?.image : clerkUser.imageUrl,
   };
