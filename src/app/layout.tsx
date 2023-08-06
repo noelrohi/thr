@@ -41,7 +41,7 @@ export default function RootLayout({
             defaultTheme="dark"
             forcedTheme="dark"
           >
-            <main className="w-screen flex justify-center items-center ">
+            <main className="flex justify-center items-center ">
               <div
                 className={cn(
                   "min-h-screen w-full text-base max-w-[500px] relative",
