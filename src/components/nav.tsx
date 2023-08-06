@@ -46,13 +46,13 @@ export default function Nav({
         />
       </Link>
       <Modal create={create} />
-      <Link href="/activity">
-        <Heart
-          className={`w-6 h-6 ${
-            path === "/activity" ? "" : "text-muted-foreground"
-          }`}
-        />
-      </Link>
+      {/* <Link href="/activity"> */}
+      <Heart
+        className={`w-6 h-6 ${
+          path === "/activity" ? "" : "text-muted-foreground"
+        }`}
+      />
+      {/* </Link> */}
       <Link href={`/${username}`}>
         {/* <SignOutButton> */}
         {username === null ? (
