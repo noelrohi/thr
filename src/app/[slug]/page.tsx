@@ -4,6 +4,12 @@ import { threads, users } from "@/db/schema";
 import { and, desc, eq, sql } from "drizzle-orm";
 import Link from "next/link";
 
+export async function generateStaticParams() {
+  const users = await db.query.users.findMany();
+  const slugs = users.map((user) => ({ slug: user.username }));
+  return slugs;
+}
+
 export default async function ProfilePage({
   params,
 }: {

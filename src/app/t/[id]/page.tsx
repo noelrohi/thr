@@ -10,6 +10,14 @@ import Link from "next/link";
 
 export const revalidate = 0;
 
+export async function generateStaticParams() {
+  const posts = await db.query.threads.findMany();
+
+  return posts.map((post) => ({
+    id: String(post.id),
+  }));
+}
+
 export default async function ThreadPage({
   params,
 }: {
