@@ -36,7 +36,11 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="dark">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            forcedTheme="dark"
+          >
             <main className="w-screen flex justify-center items-center ">
               <div
                 className={cn(
