@@ -24,9 +24,6 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@t3-oss/env-nextjs": "^0.6.0",
-    "@types/node": "20.4.4",
-    "@types/react": "18.2.15",
-    "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "bad-words": "^3.0.4",
     "class-variance-authority": "^0.7.0",
@@ -38,20 +35,23 @@
     "lucide-react": "^0.263.0",
     "next": "13.4.11",
     "next-themes": "^0.2.1",
-    "postcss": "8.4.26",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-intersection-observer": "^9.5.2",
     "sonner": "^0.6.2",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
-    "typescript": "5.1.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "typescript": "5.1.6",
+    "tailwindcss": "3.3.3",
+    "postcss": "8.4.26",
+    "@types/node": "20.4.4",
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
     "@faker-js/faker": "^8.0.2",
     "@types/bad-words": "^3.0.1",
-    "drizzle-kit": "^0.19.10"
+    "drizzle-kit": "^0.19.13"
   }
 }
