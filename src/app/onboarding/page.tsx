@@ -3,9 +3,16 @@ import { Screens } from "@/components/onboarding";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { users } from "@/db/schema";
+import { faker } from "@faker-js/faker";
 import { db } from "@/db";
 
 export const revalidate = 0;
+
+function generateName(firstName: string | null, lastName: string | null) {
+  const firstname = firstName ?? faker.person.firstName;
+  const lastname = lastName ?? faker.person.lastName;
+  return `${firstname} ${lastname}`;
+}
 
 export default async function OnboardingLayout() {
   const authUser = await currentUser();
@@ -34,7 +41,7 @@ export default async function OnboardingLayout() {
     username: getUser[0]?.username
       ? getUser[0]?.username
       : clerkUser.id.slice(5),
-    name: clerkUser.firstName + " " + clerkUser.lastName,
+    name: generateName(clerkUser.firstName, clerkUser.lastName),
     bio: getUser[0]?.bio ? getUser[0]?.bio : "",
     image: getUser[0]?.image ? getUser[0]?.image : clerkUser.imageUrl,
   };

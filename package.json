@@ -50,6 +50,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@types/bad-words": "^3.0.1",
     "drizzle-kit": "^0.19.10"
   }
