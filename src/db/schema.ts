@@ -47,6 +47,17 @@ export const followers = mysqlTable(
   })
 );
 
+export const userRelations = relations(users, ({ many }) => ({
+  followers: many(followers),
+}));
+
+export const followerRelations = relations(followers, ({ one }) => ({
+  user: one(users, {
+    fields: [followers.userId],
+    references: [users.clerkId],
+  }),
+}));
+
 export type Followers = InferModel<typeof followers>;
 
 export const threads = mysqlTable(

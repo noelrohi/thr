@@ -1,12 +1,11 @@
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 import Nav from "@/components/nav";
 import { Bar } from "@/components/search/bar";
 import { SearchUser } from "@/components/search/user";
 import { db } from "@/db";
-import { and, eq, like, ne, or, sql } from "drizzle-orm";
 import { followers, users } from "@/db/schema";
-import { SquareDashedBottom } from "lucide-react";
+import { currentUser } from "@clerk/nextjs";
+import { and, eq, like, ne, or } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export const revalidate = 0;
 
@@ -24,20 +23,20 @@ export default async function SearchPage({
 
   if (!getSelf) redirect("/onboarding");
 
-  const data = await db
-    .select({ user: users })
-    .from(users)
-    .where(
-      searchParams?.q
-        ? and(
-            ne(users.clerkId, current_user.id),
-            or(
-              like(users.username, `%${searchParams.q as string}%`),
-              like(users.name, `%${searchParams.q as string}%`)
-            )
+  const data = await db.query.users.findMany({
+    with: {
+      followers: true,
+    },
+    where: searchParams?.q
+      ? and(
+          ne(users.clerkId, current_user.id),
+          or(
+            like(users.username, `%${searchParams.q as string}%`),
+            like(users.name, `%${searchParams.q as string}%`)
           )
-        : ne(users.clerkId, current_user.id)
-    );
+        )
+      : ne(users.clerkId, current_user.id),
+  });
   // return (
   //   <>
   //     <div className="px-3 mb-1">
@@ -68,28 +67,17 @@ export default async function SearchPage({
         </div>
       ) : (
         <>
-          {await Promise.all(
-            data.map(async ({ user }) => {
-              const isFollowing = await db.query.followers.findFirst({
-                where: and(
-                  eq(followers.followerId, current_user.id),
-                  eq(followers.userId, user.clerkId)
-                ),
-              });
-              const userFollowers = await db.query.followers.findMany({
-                where: eq(followers.userId, user.clerkId),
-              });
-              return (
-                <SearchUser
-                  isFollowing={!!isFollowing}
-                  followersCount={userFollowers.length}
-                  key={user.id}
-                  authenticatedId={current_user.id}
-                  user={user}
-                />
-              );
-            })
-          )}
+          {data.map((user) => (
+            <SearchUser
+              isFollowing={user.followers.some(
+                (f) => f.followerId === current_user.id
+              )}
+              followersCount={user.followers.length}
+              key={user.id}
+              authenticatedId={current_user.id}
+              user={user}
+            />
+          ))}
         </>
       )}
     </>
