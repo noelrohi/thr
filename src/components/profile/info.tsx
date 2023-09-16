@@ -26,7 +26,7 @@ export function InfoModal() {
           <div className="text-muted-foreground leading-relaxed">
             A threads clone made by{" "}
             <a
-              href="https://twitter.com/ishaandey_"
+              href="https://twitter.com/gneiru"
               target="_blank"
               rel="noreferrer"
             >
@@ -37,8 +37,8 @@ export function InfoModal() {
                 Ishaan
               </Button>
             </a>{" "}
-            with Next.js server components, Vercel Postgres, shadcn UI, Clerk,
-            and Prisma.
+            with Next.js server components, Planetscale, shadcn UI, Clerk, and
+            Drizzle.
           </div>
           <div className="text-muted-foreground leading-relaxed">
             It&apos;s mostly complete & working, with a few small bugs/missing
@@ -46,7 +46,7 @@ export function InfoModal() {
           </div>
           <DialogFooter>
             <a
-              href="https://www.github.com/ishaan1013/threads"
+              href="https://www.github.com/gneiru/thr"
               target="_blank"
               rel="noreferrer"
               className="w-full mt-2"
