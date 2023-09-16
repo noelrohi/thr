@@ -48,7 +48,7 @@ export default function Nav({
       <Modal create={create} />
       {/* <Link href="/activity"> */}
       <Heart
-        className={`w-6 h-6 ${
+        className={`w-6 h-6 cursor-not-allowed ${
           path === "/activity" ? "" : "text-muted-foreground"
         }`}
       />
