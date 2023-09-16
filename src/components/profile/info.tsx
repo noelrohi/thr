@@ -34,15 +34,11 @@ export function InfoModal() {
                 variant="link"
                 className="px-[3px] text-base w-auto py-0 h-auto"
               >
-                Ishaan
+                Rohi
               </Button>
             </a>{" "}
             with Next.js server components, Planetscale, shadcn UI, Clerk, and
             Drizzle.
-          </div>
-          <div className="text-muted-foreground leading-relaxed">
-            It&apos;s mostly complete & working, with a few small bugs/missing
-            features (see GitHub issues for details).
           </div>
           <DialogFooter>
             <a
