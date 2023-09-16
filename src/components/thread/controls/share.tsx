@@ -22,7 +22,7 @@ export default function ShareButton({
   const shareData = {
     title: "Threads",
     text: "Link to " + name + "'s post on Threads",
-    url: env.NEXT_PUBLIC_APP_URL + "/" + post,
+    url: env.NEXT_PUBLIC_APP_URL + "/t/" + post,
   };
 
   return (
