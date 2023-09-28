@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -8,7 +9,6 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
-import { InferModel, relations } from "drizzle-orm";
 
 export const users = mysqlTable(
   "users",
@@ -31,7 +31,7 @@ export const users = mysqlTable(
   })
 );
 
-export type Users = InferModel<typeof users>;
+export type Users = typeof users.$inferSelect
 
 export const followers = mysqlTable(
   "followers",
@@ -58,7 +58,7 @@ export const followerRelations = relations(followers, ({ one }) => ({
   }),
 }));
 
-export type Followers = InferModel<typeof followers>;
+export type Followers = typeof followers.$inferSelect;
 
 export const threads = mysqlTable(
   "threads",
@@ -91,7 +91,7 @@ export const threadsRelations = relations(threads, ({ one, many }) => ({
   }),
 }));
 
-export type Threads = InferModel<typeof threads>;
+export type Threads = typeof threads.$inferSelect;
 
 export const likes = mysqlTable(
   "likes",
@@ -106,7 +106,7 @@ export const likes = mysqlTable(
     threadIdx: index("threadId_idx").on(table.threadId),
   })
 );
-export type Likes = InferModel<typeof likes>;
+export type Likes = typeof likes.$inferSelect;
 
 export const likesRelations = relations(likes, ({ one }) => ({
   threads: one(threads, {
@@ -135,7 +135,7 @@ export const repostsRelations = relations(reposts, ({ one }) => ({
   }),
 }));
 
-export type Reposts = InferModel<typeof reposts>;
+export type Reposts = typeof reposts.$inferSelect;
 
 export const notifications = mysqlTable(
   "notifications",
@@ -160,4 +160,4 @@ export const notifications = mysqlTable(
   })
 );
 
-export type Notifications = InferModel<typeof notifications>;
+export type Notifications = typeof notifications.$inferSelect;
