@@ -14,8 +14,8 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.23.0",
-    "@clerk/themes": "^1.7.5",
+    "@clerk/nextjs": "^4.24.2",
+    "@clerk/themes": "^1.7.6",
     "@planetscale/database": "^1.8.0",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -29,7 +29,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dotenv": "^16.3.1",
-    "drizzle-orm": "^0.27.2",
+    "drizzle-orm": "^0.28.6",
     "eslint": "8.45.0",
     "eslint-config-next": "13.5.3",
     "lucide-react": "^0.263.0",

@@ -1,16 +1,12 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@clerk/nextjs':
-    specifier: ^4.23.0
-    version: 4.23.0(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^4.24.2
+    version: 4.24.2(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)
   '@clerk/themes':
-    specifier: ^1.7.5
-    version: 1.7.5(react@18.2.0)
+    specifier: ^1.7.6
+    version: 1.7.6(react@18.2.0)
   '@planetscale/database':
     specifier: ^1.8.0
     version: 1.8.0
@@ -51,8 +47,8 @@ dependencies:
     specifier: ^16.3.1
     version: 16.3.1
   drizzle-orm:
-    specifier: ^0.27.2
-    version: 0.27.2(@planetscale/database@1.8.0)
+    specifier: ^0.28.6
+    version: 0.28.6(@planetscale/database@1.8.0)
   eslint:
     specifier: 8.45.0
     version: 8.45.0
@@ -137,11 +133,11 @@ packages:
       regenerator-runtime: 0.13.11
     dev: false
 
-  /@clerk/backend@0.26.0:
-    resolution: {integrity: sha512-lFDKVqx2soDvKpynZRtRzb1mg4peE5O5I5H7XIgaGhcchOVPrv+IYR0+rTwlSZkep4xCG12dPIKW+Bjtp6QLKw==}
+  /@clerk/backend@0.29.3:
+    resolution: {integrity: sha512-fzvxcSa3oky4EMfF898YPejXXF8L6NUqQjX3b1ls873fjU3XfYbQSWA77drl7S3M3QTD/V/eGvZPWa5CoFcRwQ==}
     engines: {node: '>=14'}
     dependencies:
-      '@clerk/types': 3.48.1
+      '@clerk/types': 3.52.1
       '@peculiar/webcrypto': 1.4.1
       '@types/node': 16.18.6
       cookie: 0.5.0
@@ -151,25 +147,24 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@clerk/clerk-react@4.23.1(react@18.2.0):
-    resolution: {integrity: sha512-X0h7I2aPxc3cY7f5ZOaUrrgYjYXSOWbWOCyNuF4rZeW1L6ED8mZEFpQV4+EluUgAomxgGrt8kdMIyMwSsGw3Tg==}
+  /@clerk/clerk-react@4.25.2(react@18.2.0):
+    resolution: {integrity: sha512-e6oJTaXL5sH/cA4co6O+XLoT1X3hlwYrcnlLWtAcBp9DmBvYficoFJIHIHUXNM9xLRDXamb9TQY38VX98zJ2dQ==}
     engines: {node: '>=14'}
     peerDependencies:
       react: '>=16'
     dependencies:
-      '@clerk/shared': 0.20.0(react@18.2.0)
-      '@clerk/types': 3.48.1
+      '@clerk/shared': 0.23.1(react@18.2.0)
+      '@clerk/types': 3.52.1
       react: 18.2.0
-      swr: 1.3.0(react@18.2.0)
       tslib: 2.4.1
     dev: false
 
-  /@clerk/clerk-sdk-node@4.12.0:
-    resolution: {integrity: sha512-5ViPNDkM+huloBB7O8qArIMXVqqX3JH1dKFQiktLcG/BrlAPmdA0ks9c0Mlnl+W2T1vQlAuH+7QLzpGUk9GtJw==}
+  /@clerk/clerk-sdk-node@4.12.8:
+    resolution: {integrity: sha512-Zua09xOq5AZUEza0pL36J6qND87KDxu29LDNwBN4Cqgs5f88ZfkIP0SP36SCmForgNnvKM0LkRkYRsox16Vo4A==}
     engines: {node: '>=14'}
     dependencies:
-      '@clerk/backend': 0.26.0
-      '@clerk/types': 3.48.1
+      '@clerk/backend': 0.29.3
+      '@clerk/types': 3.52.1
       '@types/cookies': 0.7.7
       '@types/express': 4.17.14
       '@types/node-fetch': 2.6.2
@@ -178,18 +173,18 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@clerk/nextjs@4.23.0(next@13.5.3)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-GOgtMDGJHiOIQ16WIARLUL7uvFV6yP7wHai8fOWtxISQff0dCTTltTvlotwyU4im0sb1xeznZrDyubCRbRIXmg==}
+  /@clerk/nextjs@4.24.2(next@13.5.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-HnMA2V31gMkXLlWU9aLNn9n8Q2r6sK4iR60aBXUSWFvspysgEhjryNeR3KF4oKUQ5CE8WCSLdMGevz1tRfI1hA==}
     engines: {node: '>=14'}
     peerDependencies:
       next: '>=10'
       react: ^17.0.2 || ^18.0.0-0
       react-dom: ^17.0.2 || ^18.0.0-0
     dependencies:
-      '@clerk/backend': 0.26.0
-      '@clerk/clerk-react': 4.23.1(react@18.2.0)
-      '@clerk/clerk-sdk-node': 4.12.0
-      '@clerk/types': 3.48.1
+      '@clerk/backend': 0.29.3
+      '@clerk/clerk-react': 4.25.2(react@18.2.0)
+      '@clerk/clerk-sdk-node': 4.12.8
+      '@clerk/types': 3.52.1
       next: 13.5.3(react-dom@18.2.0)(react@18.2.0)
       path-to-regexp: 6.2.1
       react: 18.2.0
@@ -197,19 +192,19 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@clerk/shared@0.20.0(react@18.2.0):
-    resolution: {integrity: sha512-VbJZQ3DwF35qPNTa1u2r/UO0vEfk4Gzf8dzbbma6fLPRILAFovQGYb5Cwvmef+Qj7S0XPpOlW1lSYHBHL326gQ==}
+  /@clerk/shared@0.23.1(react@18.2.0):
+    resolution: {integrity: sha512-cs212IV2HjiLoem4FtIqU6pmjZGKm+gG4DLagi05HjHywTJMz7MrlM1RSyWftFzVYSkZwZ7VaHTrmTFTRni4eg==}
     peerDependencies:
       react: '>=16'
     dependencies:
       glob-to-regexp: 0.4.1
       js-cookie: 3.0.1
       react: 18.2.0
-      swr: 1.3.0(react@18.2.0)
+      swr: 2.2.0(react@18.2.0)
     dev: false
 
-  /@clerk/themes@1.7.5(react@18.2.0):
-    resolution: {integrity: sha512-kIdCIBSCp6t1saGAzbelcfZi5P+L3+CuVFwSjpulwGTRxeOOs/S8hB4CAHVbTwfxPw5Ms+AnN4dXJKHjSnxPIg==}
+  /@clerk/themes@1.7.6(react@18.2.0):
+    resolution: {integrity: sha512-K3nxz3PZX52GmICqKKg/PJ2xtxTOw96Tjxnsb/T4syxMyLmoBBkTnL3Jx96D6zsvSblD+Ujb23z5epSeyQiwtQ==}
     engines: {node: '>=14'}
     peerDependencies:
       react: '>=16'
@@ -217,8 +212,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@clerk/types@3.48.1:
-    resolution: {integrity: sha512-bpSSfqdrw4iYCLlJ8UVN8HWMkA12wOH0lICdjnefPKKm1qO3yb8P5p6jmaCckcwF77unMECAslO2q2ocZcO1QA==}
+  /@clerk/types@3.52.1:
+    resolution: {integrity: sha512-mLKBJZdlTbST0wuU6bMJJYWwqtDLiHOy3qPC8pV58DO4NEs7ebiUU7Q6RuoP7qLh7P3BO+S/0CBjpRX4jogjSw==}
     engines: {node: '>=14'}
     dependencies:
       csstype: 3.1.1
@@ -2285,8 +2280,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.27.2(@planetscale/database@1.8.0):
-    resolution: {integrity: sha512-ZvBvceff+JlgP7FxHKe0zOU9CkZ4RcOtibumIrqfYzDGuOeF0YUY0F9iMqYpRM7pxnLRfC+oO7rWOUH3T5oFQA==}
+  /drizzle-orm@0.28.6(@planetscale/database@1.8.0):
+    resolution: {integrity: sha512-yBe+F9htrlYER7uXgDJUQsTHFoIrI5yMm5A0bg0GiZ/kY5jNXTWoEy4KQtg35cE27sw1VbgzoMWHAgCckUUUww==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -4487,12 +4482,13 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /swr@1.3.0(react@18.2.0):
-    resolution: {integrity: sha512-dkghQrOl2ORX9HYrMDtPa7LTVHJjCTeZoB1dqTbnnEDlSvN8JEKpYIYurDfvbQFUUS8Cg8PceFVZNkW0KNNYPw==}
+  /swr@2.2.0(react@18.2.0):
+    resolution: {integrity: sha512-AjqHOv2lAhkuUdIiBu9xbuettzAzWXmCEcLONNKJRba87WAefz8Ca9d6ds/SzrPc235n1IxWYdhJ2zF3MNUaoQ==}
     peerDependencies:
       react: ^16.11.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /synckit@0.8.5:
@@ -4763,6 +4759,14 @@ packages:
       tslib: 2.6.0
     dev: false
 
+  /use-sync-external-store@1.2.0(react@18.2.0):
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -4862,3 +4866,7 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
