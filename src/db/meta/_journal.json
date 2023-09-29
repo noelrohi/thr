@@ -8,6 +8,13 @@
       "when": 1694054706928,
       "tag": "0000_perpetual_spot",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1695957936083,
+      "tag": "0001_last_iceman",
+      "breakpoints": true
     }
   ]
 }

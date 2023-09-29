@@ -17,7 +17,7 @@ export const users = mysqlTable(
     clerkId: varchar("clerkId", { length: 191 }).notNull().unique(),
     bio: text("bio"),
     image: text("image").notNull(),
-    username: text("username").notNull(),
+    username: varchar("username", { length: 191 }).notNull(),
     name: text("name").notNull(),
     isEdited: boolean("isEedited").default(false),
     onboarded: boolean("onboarded").default(false),
@@ -28,10 +28,11 @@ export const users = mysqlTable(
   },
   (table) => ({
     clerkIdx: index("clerkId_idx").on(table.clerkId),
+    usernameIdx: index("username_idx").on(table.username),
   })
 );
 
-export type Users = typeof users.$inferSelect
+export type Users = typeof users.$inferSelect;
 
 export const followers = mysqlTable(
   "followers",
@@ -73,6 +74,7 @@ export const threads = mysqlTable(
   (table) => ({
     userIdx: index("authorId_idx").on(table.authorId),
     parentIdx: index("parentId_idx").on(table.parentId),
+    authorIdx: index("authorId_idx").on(table.authorId),
   })
 );
 

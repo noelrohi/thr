@@ -10,4 +10,5 @@ export default {
   dbCredentials: {
     connectionString: process.env.DATABASE_URL ?? "",
   },
+  tablesFilter: ['followers','likes', 'notifications', 'reposts', 'threads', 'users']
 } satisfies Config;
