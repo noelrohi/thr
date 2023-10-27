@@ -8,8 +8,6 @@ import { ArrowUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export const revalidate = 0;
-
 export async function generateStaticParams() {
   const posts = await db.query.threads.findMany();
 
