@@ -31,7 +31,7 @@
     "drizzle-orm": "^0.28.6",
     "eslint": "8.52.0",
     "eslint-config-next": "14",
-    "lucide-react": "^0.290.0",
+    "lucide-react": "^0.291.0",
     "next": "14",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
