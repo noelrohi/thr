@@ -29,7 +29,7 @@
     "clsx": "^2.0.0",
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.6",
-    "eslint": "8.52.0",
+    "eslint": "8.53.0",
     "eslint-config-next": "14",
     "lucide-react": "^0.291.0",
     "next": "14",
