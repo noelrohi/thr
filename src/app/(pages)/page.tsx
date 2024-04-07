@@ -1,20 +1,26 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { db } from "@/db";
-import { posts } from "@/db/schema";
-import { revalidateTag, unstable_cache } from "next/cache";
 import { Suspense } from "react";
 import { Form, SubmitButton } from "./_interactive";
 
 export default function Home() {
   return (
     <main>
-      Posts
       <Suspense fallback="Loading...">
-        <LatestPost />
+        <Posts />
       </Suspense>
-      <CreateForm />
     </main>
+  );
+}
+
+async function Posts() {
+  const posts = await db.query.posts.findMany();
+  return (
+    <div>
+      {posts.map((post) => (
+        <div key={post.id}>{post.title}</div>
+      ))}
+    </div>
   );
 }
 

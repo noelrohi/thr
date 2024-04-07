@@ -28,9 +28,13 @@ export const authConfig = {
     }),
     authorized({ request: { nextUrl }, auth }) {
       const isLoggedIn = !!auth?.user;
-      const isOnPublicPage = nextUrl.pathname === "/";
-      if (isOnPublicPage) return true;
-      return isLoggedIn;
+      const isOnHomePage = nextUrl.pathname === "/";
+      if (isOnHomePage) {
+        if (isLoggedIn) return true;
+        return false;
+      }
+      if (isLoggedIn) return Response.redirect(new URL("/", nextUrl));
+      return true;
     },
   },
 } satisfies NextAuthConfig;
