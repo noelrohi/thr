@@ -9,5 +9,3 @@ import { pgTableCreator } from "drizzle-orm/pg-core";
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const projectTable = pgTableCreator((name) => env.TABLE_PREFIX + name);
-
-export const now = sql`CURRENT_TIMESTAMP`;

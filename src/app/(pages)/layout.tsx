@@ -1,11 +1,21 @@
 import { auth, currentUser } from "@/auth";
 import { ThreadIcon } from "@/components/icons";
-import { Edit, Heart, Home, Search, User2 } from "lucide-react";
+import { Edit, Heart, Home, Loader2, Search, User2 } from "lucide-react";
 import { redirect } from "next/navigation";
-import { ActiveLink } from "./_interactive";
+import {
+  ActiveLink,
+  AddRelatedThread,
+  CreateThreadInput,
+  Form,
+  SubmitButton,
+  ThreadFormInputs,
+} from "./_interactive";
 import { db } from "@/db";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Suspense } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface StickyLayoutProps {
   children: React.ReactNode;
@@ -52,6 +62,9 @@ async function CreateThread() {
         <DialogTrigger asChild>
           <Edit className="size-6 opacity-75" />
         </DialogTrigger>
+        <DialogContent className="max-h-[80vh] overflow-auto">
+          <ThreadFormInputs user={user} />
+        </DialogContent>
       </Dialog>
     </>
   );
