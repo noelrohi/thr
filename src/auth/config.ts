@@ -26,15 +26,8 @@ export const authConfig = {
         id: user.id,
       },
     }),
-    authorized({ request: { nextUrl }, auth }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnHomePage = nextUrl.pathname === "/";
-      if (isOnHomePage) {
-        if (isLoggedIn) return true;
-        return false;
-      }
-      if (isLoggedIn) return Response.redirect(new URL("/", nextUrl));
-      return true;
+    authorized({ auth }) {
+      return !!auth?.user;
     },
   },
 } satisfies NextAuthConfig;

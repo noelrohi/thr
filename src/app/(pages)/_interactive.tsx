@@ -1,29 +1,25 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
-import { createPost } from "./_actions";
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { createPost, updateUserDetails } from "./_actions";
+import { Loader2 } from "lucide-react";
 
 interface FormProps extends React.ComponentPropsWithoutRef<"form"> {
   actionString: keyof typeof formActions;
-  loadingMessage?: string;
 }
 
 const formActions = {
   createPost,
+  updateUserDetails,
 } as const;
 
-export function Form({
-  children,
-  actionString,
-  loadingMessage = "Please wait ...",
-  ...props
-}: FormProps) {
+export function Form({ children, actionString, ...props }: FormProps) {
   const [state, formAction] = useFormState(
     formActions[actionString],
     undefined,
@@ -48,7 +44,7 @@ export function SubmitButton({
   const { pending } = useFormStatus();
   return (
     <Button type="submit" {...props} disabled={disabled || pending}>
-      {children}
+      {pending ? <Loader2 className="size-4 animate-spin" /> : children}
     </Button>
   );
 }
@@ -62,7 +58,7 @@ export function ActiveLink({
   return (
     <Link
       {...props}
-      className={cn(className, pathname !== props.href && "opacity-50")}
+      className={cn(className, pathname !== props.href && "opacity-75")}
     >
       {children}
     </Link>

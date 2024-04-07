@@ -1,14 +1,23 @@
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
-import { ActiveLink } from "./_interactive";
-import { Edit, Heart, Home, IceCream, Search, User2 } from "lucide-react";
+import { auth, currentUser } from "@/auth";
 import { ThreadIcon } from "@/components/icons";
+import { Edit, Heart, Home, Search, User2 } from "lucide-react";
+import { redirect } from "next/navigation";
+import { ActiveLink } from "./_interactive";
+import { db } from "@/db";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Suspense } from "react";
 
 interface StickyLayoutProps {
   children: React.ReactNode;
 }
 
 export default async function StickyLayout({ children }: StickyLayoutProps) {
+  const session = await auth();
+  if (!session) redirect("/signin");
+  const userDetails = await db.query.userDetails.findFirst({
+    where: (table, { eq }) => eq(table.userId, session.user.id),
+  });
+  if (userDetails?.username == null) redirect("/onboarding");
   return (
     <div className="relative mx-auto flex h-screen max-w-[500px] flex-col py-4">
       <ThreadIcon className="mx-auto size-9" />
@@ -20,7 +29,9 @@ export default async function StickyLayout({ children }: StickyLayoutProps) {
         <ActiveLink href="/search">
           <Search className="size-6" />
         </ActiveLink>
-        <Edit className="size-6" />
+        <Suspense fallback={<Edit className="size-6 opacity-75" />}>
+          <CreateThread />
+        </Suspense>
         <ActiveLink href={"#"}>
           <Heart className="size-6" />
         </ActiveLink>
@@ -29,5 +40,19 @@ export default async function StickyLayout({ children }: StickyLayoutProps) {
         </ActiveLink>
       </nav>
     </div>
+  );
+}
+
+async function CreateThread() {
+  const user = await currentUser();
+  if (!user) throw new Error("User not found");
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Edit className="size-6 opacity-75" />
+        </DialogTrigger>
+      </Dialog>
+    </>
   );
 }
