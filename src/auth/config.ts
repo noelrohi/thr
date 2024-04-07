@@ -15,6 +15,9 @@ declare module "next-auth" {
 }
 
 export const authConfig = {
+  pages: {
+    signIn: "/signin",
+  },
   adapter: DrizzleAdapter(db, tableCreator),
   providers: [],
   secret: env.NEXTAUTH_SECRET,

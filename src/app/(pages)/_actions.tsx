@@ -1,12 +1,11 @@
 "use server";
 
-import { db } from "@/db";
-import { posts, userDetails } from "@/db/schema";
-import { revalidatePath, revalidateTag } from "next/cache";
-import { z } from "zod";
-import { decode } from "decode-formdata";
-import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
+import { db } from "@/db";
+import { posts, userDetails } from "@/db/schema/main";
+import { decode } from "decode-formdata";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 type State =
   | {
