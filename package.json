@@ -28,7 +28,6 @@
     "bad-words": "^3.0.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "date-fns": "^3.6.0",
     "decode-formdata": "^0.6.0",
     "drizzle-orm": "^0.30.7",
     "lucide-react": "^0.365.0",
