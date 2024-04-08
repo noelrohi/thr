@@ -8,9 +8,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/db";
 import { redirect } from "next/navigation";
 import { Form, SubmitButton } from "../(pages)/_interactive";
-import { db } from "@/db";
 
 export default async function Page() {
   const session = await auth();

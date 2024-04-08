@@ -4,11 +4,11 @@ import { LikesAndReplies } from "@/components/thread/interactive";
 import { UserAvatar } from "@/components/user-avatar";
 import type { users } from "@/db/schema/auth";
 import type { likes, posts, userDetails } from "@/db/schema/main";
+import { toRelativeTime } from "@/lib/utils";
 import type { InferSelectModel } from "drizzle-orm";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
-import { toRelativeTime } from "@/lib/utils";
 
 interface PostWithLikesAndReplies extends InferSelectModel<typeof posts> {
   likes: Array<InferSelectModel<typeof likes>>;

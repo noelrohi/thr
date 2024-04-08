@@ -1,6 +1,6 @@
 import { projectTable } from "@/db/utils";
 import { sql } from "drizzle-orm";
-import { serial, text, timestamp, bigint, index } from "drizzle-orm/pg-core";
+import { bigint, index, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const posts = projectTable(
   "posts",
@@ -37,6 +37,14 @@ export const userDetails = projectTable("user_details", {
   fullName: text("full_name").notNull(),
   username: text("username").notNull().unique(),
   bio: text("bio"),
+  createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),
+});
+
+export const savedPosts = projectTable("saved_posts", {
+  id: serial("id").notNull().primaryKey(),
+  postId: bigint("post_id", { mode: "number" }).notNull(),
+  userId: text("user_id").notNull(),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),
 });

@@ -7,7 +7,13 @@ import { Fragment, Suspense } from "react";
 export default function Home() {
   return (
     <main>
-      <Suspense fallback="Loading...">
+      <Suspense
+        fallback={
+          <div className="flex h-screen flex-col items-center justify-center">
+            Loading...
+          </div>
+        }
+      >
         <Posts />
       </Suspense>
     </main>
