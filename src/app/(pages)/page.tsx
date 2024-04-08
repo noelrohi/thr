@@ -26,6 +26,7 @@ async function Posts() {
   const posts = await db.query.posts.findMany({
     where: (table, { isNull }) => isNull(table.parentId),
     orderBy: (table, { desc }) => desc(table.createdAt),
+    limit: 100,
     with: {
       likes: true,
       replies: true,
@@ -37,13 +38,18 @@ async function Posts() {
     },
   });
   return (
-    <div className="space-y-2">
-      {[...posts, ...posts, ...posts].map((post) => (
+    <div className="space-y-2" key={Math.random()}>
+      {posts.map((post) => (
         <Fragment key={post.id}>
           <Post
+            key={post.id}
             post={post}
             isLiked={likedPosts.some((p) => p === post.id)}
-            currentUser={user}
+            avatarProps={{
+              src: post.user?.image ?? "",
+              alt: post.user?.details?.username || "@anonymous",
+              fallback: post.user?.details?.username || "G",
+            }}
           />
           <Separator />
         </Fragment>
