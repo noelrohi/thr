@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import {
   createPost,
   createThread,
+  followOrUnfollow,
   likePost,
   updateUserDetails,
 } from "./_actions";
@@ -36,6 +37,7 @@ const formActions = {
   createPost,
   updateUserDetails,
   likePost,
+  followOrUnfollow,
 } as const;
 
 export function Form({ children, actionString, ...props }: FormProps) {
@@ -63,7 +65,10 @@ export function SubmitButton({
   const { pending } = useFormStatus();
   return (
     <Button type="submit" {...props} disabled={disabled || pending}>
-      {pending ? <Loader2 className="size-4 animate-spin" /> : children}
+      {pending ? (
+        <Loader2 className="mr-2 inline-flex size-4 animate-spin items-center" />
+      ) : null}
+      {children}
     </Button>
   );
 }

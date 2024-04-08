@@ -8,18 +8,12 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   posts: many(posts),
   likedPosts: many(posts),
   savedPosts: many(savedPosts),
-  followers: many(followers, { relationName: "followers" }),
 }));
 
 export const followersRelations = relations(followers, ({ one }) => ({
-  user: one(users, {
+  follower: one(userDetails, {
     fields: [followers.userId],
-    references: [users.id],
-  }),
-  follower: one(users, {
-    fields: [followers.followerId],
-    references: [users.id],
-    relationName: "followers",
+    references: [userDetails.userId],
   }),
 }));
 
@@ -50,6 +44,7 @@ export const userDetailsRelations = relations(userDetails, ({ many, one }) => ({
     fields: [userDetails.userId],
     references: [users.id],
   }),
+  followers: many(followers),
 }));
 
 export const postsRelations = relations(posts, ({ many, one }) => ({

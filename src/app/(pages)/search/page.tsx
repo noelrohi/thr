@@ -9,6 +9,11 @@ import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
+import { eq, sql } from "drizzle-orm";
+import { userDetails } from "@/db/schema/main";
+import { boolean } from "drizzle-orm/pg-core";
+import { followOrUnfollow } from "../_actions";
+import { Form, SubmitButton } from "../_interactive";
 
 const spSchema = z.object({
   q: z.string().optional(),
@@ -49,52 +54,66 @@ export default function Search({ searchParams }: PageProps) {
 }
 
 async function UserList({ q }: typeof spSchema._output) {
+  const session = await auth();
+  if (!session) throw new Error("User not found");
   const userList = await db.query.userDetails.findMany({
     where: (table, { ilike }) =>
       q ? ilike(table.fullName, `%${q}%`) : undefined,
     limit: 100,
     with: {
-      user: {
-        with: {
-          followers: true,
-        },
-      },
+      user: true,
+      followers: true,
     },
   });
-  const session = await auth();
-  if (!session) throw new Error("User not found");
   if (!userList.length)
     return (
       <div className="flex h-full items-center justify-center">No results</div>
     );
   return (
     <div className="space-y-4 py-4">
-      {userList.map((user) => (
-        <Fragment key={user.id}>
-          <div className="flex justify-between">
-            <div className="flex gap-4">
-              <UserAvatar
-                className="size-8"
-                src={user.user.image ?? ""}
-                alt={user.username}
-              />
-              <div>
-                <div>{user.username}</div>
-                <div className="text-muted-foreground">{user.fullName}</div>
-                <div>{user.user.followers.length} followers</div>
+      {userList.map((user) => {
+        const isFollowedByCurrentUser = user.followers.some(
+          (f) => f.followerId === session.user.id,
+        );
+        return (
+          <Fragment key={user.id}>
+            <div className="flex justify-between">
+              <div className="flex gap-4">
+                <UserAvatar
+                  className="size-8"
+                  src={user.user.image ?? ""}
+                  alt={user.username}
+                />
+                <div>
+                  <div>{user.username}</div>
+                  <div className="text-muted-foreground">{user.fullName}</div>
+                  <div>{user.followers.length} followers</div>
+                </div>
               </div>
+              {user.userId !== session.user.id && (
+                <div className="flex items-center">
+                  <Form actionString="followOrUnfollow">
+                    <input
+                      type="hidden"
+                      name="isFollowedByCurrentUser"
+                      value={String(isFollowedByCurrentUser)}
+                    />
+                    <input
+                      type="hidden"
+                      name="userToFollowId"
+                      value={user.userId}
+                    />
+                    <SubmitButton size="sm">
+                      {isFollowedByCurrentUser ? "Unfollow" : "Follow"}
+                    </SubmitButton>
+                  </Form>
+                </div>
+              )}
             </div>
-            {user.userId !== session.user.id && (
-              <div className="flex items-center">
-                <form>
-                  <Button size="sm">Follow</Button>
-                </form>
-              </div>
-            )}
-          </div>
-          <Separator />
-        </Fragment>
-      ))}
+            <Separator />
+          </Fragment>
+        );
+      })}
     </div>
   );
 }

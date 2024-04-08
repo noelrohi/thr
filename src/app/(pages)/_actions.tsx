@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { likes, posts, userDetails } from "@/db/schema/main";
+import { followers, likes, posts, userDetails } from "@/db/schema/main";
 import { unkey } from "@/lib/unkey";
 import { decode } from "decode-formdata";
 import { and, eq } from "drizzle-orm";
@@ -166,6 +166,59 @@ export async function likePost(
     console.error(error);
     return {
       message: `Error ${isLiked ? "unliking" : "liking"} post`,
+      success: false,
+    };
+  }
+}
+
+const followOrUnfollowSchema = z.object({
+  isFollowedByCurrentUser: z.coerce.boolean(),
+  userToFollowId: z.string(),
+});
+
+export async function followOrUnfollow(
+  prevState: State,
+  formData: FormData,
+): Promise<State> {
+  const session = await auth();
+  if (!session) return { message: "Unauthorized", success: false };
+
+  const formValues = decode(formData, {
+    booleans: ["isFollowedByCurrentUser"],
+  });
+  console.log(formValues);
+  const parse = followOrUnfollowSchema.safeParse(formValues);
+  if (!parse.success) return { message: "Invalid form data", success: false };
+  const { isFollowedByCurrentUser, userToFollowId } = parse.data;
+  const { success } = await unkey.limit(session.user.id + userToFollowId);
+  if (!success)
+    return { message: "You have exceeded your rate limit", success: false };
+  try {
+    console.log({ isFollowedByCurrentUser, userToFollowId });
+    if (isFollowedByCurrentUser) {
+      console.log(`Unfollowing user ${userToFollowId}`);
+      await db
+        .delete(followers)
+        .where(
+          and(
+            eq(followers.followerId, session.user.id),
+            eq(followers.userId, userToFollowId),
+          ),
+        );
+    } else {
+      console.log(`Following user ${userToFollowId}`);
+      await db.insert(followers).values({
+        userId: userToFollowId,
+        followerId: session.user.id,
+      });
+    }
+    revalidatePath("/search");
+  } catch (error) {
+    console.error(error);
+    return {
+      message: `Error ${
+        isFollowedByCurrentUser ? "unfollowing" : "following"
+      } user`,
       success: false,
     };
   }
