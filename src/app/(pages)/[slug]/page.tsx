@@ -1,4 +1,5 @@
-import { currentUser } from "@/auth";
+import { currentUser, signOut } from "@/auth";
+import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 
 type PageProps = {
@@ -17,5 +18,16 @@ export default async function Page({ params, searchParams }: PageProps) {
     if (!user) throw new Error("User not found");
     slug = user.username;
   }
-  return <div>{slug}</div>;
+  return (
+    <div>
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <Button>Logout</Button>
+      </form>
+    </div>
+  );
 }

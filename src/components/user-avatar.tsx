@@ -3,12 +3,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function UserAvatar({
   src,
   alt,
-  fallback,
+  fallback = "G",
   className,
 }: {
   src: string;
   alt: string;
-  fallback: React.ReactNode;
+  fallback?: React.ReactNode;
   className?: string;
 }) {
   return (

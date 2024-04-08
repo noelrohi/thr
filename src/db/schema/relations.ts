@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { accounts, users } from "./auth";
-import { likes, posts, savedPosts, userDetails } from "./main";
+import { followers, likes, posts, savedPosts, userDetails } from "./main";
 
 export const usersRelations = relations(users, ({ many, one }) => ({
   accounts: many(accounts),
@@ -8,6 +8,19 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   posts: many(posts),
   likedPosts: many(posts),
   savedPosts: many(savedPosts),
+  followers: many(followers, { relationName: "followers" }),
+}));
+
+export const followersRelations = relations(followers, ({ one }) => ({
+  user: one(users, {
+    fields: [followers.userId],
+    references: [users.id],
+  }),
+  follower: one(users, {
+    fields: [followers.followerId],
+    references: [users.id],
+    relationName: "followers",
+  }),
 }));
 
 export const savedPostsRelations = relations(savedPosts, ({ one }) => ({

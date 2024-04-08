@@ -48,3 +48,11 @@ export const savedPosts = projectTable("saved_posts", {
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),
 });
+
+export const followers = projectTable("followers", {
+  id: serial("id").notNull().primaryKey(),
+  userId: text("user_id").notNull(),
+  followerId: text("follower_id").notNull(),
+  createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),
+});

@@ -1,14 +1,20 @@
 import { LikeControl } from "@/components/like-control";
 import { ThreadActionsProvider } from "@/components/providers/control";
-import { LikesAndReplies } from "@/components/thread/interactive";
+import { CopyItem, LikesAndReplies } from "@/components/thread/interactive";
 import { UserAvatar } from "@/components/user-avatar";
 import type { users } from "@/db/schema/auth";
 import type { likes, posts, userDetails } from "@/db/schema/main";
-import { toRelativeTime } from "@/lib/utils";
+import { absoluteUrl, toRelativeTime } from "@/lib/utils";
 import type { InferSelectModel } from "drizzle-orm";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
-import { Separator } from "../ui/separator";
+import { Separator } from "@/components/ui/separator";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface PostWithLikesAndReplies extends InferSelectModel<typeof posts> {
   likes: Array<InferSelectModel<typeof likes>>;
@@ -72,7 +78,18 @@ export function Post({
               <LikeControl isLiked={isLiked || false} postId={post.id} />
               <MessageCircle className="size-5" />
               <Repeat className="size-5" />
-              <Send className="size-5" />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Send className="size-5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <CopyItem postId={post.id} className="w-full text-sm">
+                      Copy link
+                    </CopyItem>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <div className="text-muted-foreground text-sm">
               <LikesAndReplies postId={post.id} />

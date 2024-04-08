@@ -159,11 +159,7 @@ export function ThreadFormInputs({ user }: { user: UserWithDetails }) {
           {fields.map((field, i) => {
             return i === 0 ? (
               <div className="flex gap-2" key={field.id}>
-                <UserAvatar
-                  src={user.image ?? ""}
-                  alt={user.username}
-                  fallback={user.username}
-                />
+                <UserAvatar src={user.image ?? ""} alt={user.username} />
                 <div className="flex flex-col">
                   <div className="font-semibold">{user.username}</div>
                   <FormField
@@ -194,7 +190,6 @@ export function ThreadFormInputs({ user }: { user: UserWithDetails }) {
                     className="ml-2 size-6"
                     src={user.image ?? ""}
                     alt={user.username}
-                    fallback={user.username}
                   />
                   {fields.length !== i ? (
                     <div className="flex flex-1">
@@ -248,7 +243,6 @@ export function ThreadFormInputs({ user }: { user: UserWithDetails }) {
                 className="ml-2 size-6"
                 src={user.image ?? ""}
                 alt={user.username}
-                fallback={user.username}
               />
               <button
                 onClick={() => append({ text: "" })}

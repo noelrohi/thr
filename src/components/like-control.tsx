@@ -2,7 +2,7 @@
 
 import { likePost } from "@/app/(pages)/_actions";
 import { Form } from "@/app/(pages)/_interactive";
-import { useControl } from "@/hooks/control-provider";
+import { useControl } from "@/hooks/use-control";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";

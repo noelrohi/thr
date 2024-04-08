@@ -1,6 +1,6 @@
 "use client";
 
-import { ControlContext } from "@/hooks/control-provider";
+import { ControlContext } from "@/hooks/use-control";
 import * as React from "react";
 
 export function ThreadActionsProvider({

@@ -12,7 +12,9 @@ export const env = createEnv({
     NEXTAUTH_SECRET: z.string(),
     UNKEY_ROOT_KEY: z.string().startsWith("unkey_"),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_APP_URL: z.string().url(),
+  },
   // If you're using Next.js < 13.4.4, you'll need to specify the runtimeEnv manually
   runtimeEnv: {
     TABLE_PREFIX: process.env.TABLE_PREFIX,
@@ -23,6 +25,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     UNKEY_ROOT_KEY: process.env.UNKEY_ROOT_KEY,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
   // For Next.js >= 13.4.4, you only need to destructure client variables:
   // experimental__runtimeEnv: {

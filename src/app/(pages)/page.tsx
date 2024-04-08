@@ -2,15 +2,16 @@ import { currentUser } from "@/auth";
 import { Post } from "@/components/thread/server";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
+import { Loader2 } from "lucide-react";
 import { Fragment, Suspense } from "react";
 
 export default function Home() {
   return (
-    <main>
+    <main className="h-full">
       <Suspense
         fallback={
-          <div className="flex h-screen flex-col items-center justify-center">
-            Loading...
+          <div className="flex h-full items-center justify-center">
+            <Loader2 className="size-6 animate-spin" />
           </div>
         }
       >
@@ -43,6 +44,7 @@ async function Posts() {
       },
     },
   });
+  console.log(posts[0].user.image);
   return (
     <div className="space-y-2" key={Math.random()}>
       {posts.map((post) => (
@@ -54,7 +56,7 @@ async function Posts() {
             avatarProps={{
               src: post.user?.image ?? "",
               alt: post.user?.details?.username || "@anonymous",
-              fallback: post.user?.details?.username || "G",
+              fallback: post.user?.details?.username.at(0) || "G",
             }}
           />
           <Separator />

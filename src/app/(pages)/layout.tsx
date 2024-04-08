@@ -22,7 +22,7 @@ export default async function StickyLayout({ children }: StickyLayoutProps) {
   return (
     <div className="relative mx-auto flex h-screen max-w-[35rem] flex-col py-4">
       <ThreadIcon className="mx-auto size-9" />
-      <main className="flex-1 overflow-auto px-2">{children}</main>
+      <main className="h-full flex-1 overflow-auto px-2">{children}</main>
       <nav
         className={
           "flex justify-around *:flex *:flex-1 *:justify-center *:py-2"
