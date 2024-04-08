@@ -13,7 +13,16 @@ export const env = createEnv({
     UNKEY_ROOT_KEY: z.string().startsWith("unkey_"),
   },
   client: {
-    NEXT_PUBLIC_APP_URL: z.string().url(),
+    NEXT_PUBLIC_APP_URL: z
+      .string()
+      .url()
+      .refine(
+        (u) =>
+          process.env.NODE_ENV === "production"
+            ? true
+            : u.includes("localhost"),
+        "Must be a valid URL",
+      ),
   },
   // If you're using Next.js < 13.4.4, you'll need to specify the runtimeEnv manually
   runtimeEnv: {
