@@ -3,6 +3,7 @@ import { Post } from "@/components/thread/server";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { Loader2 } from "lucide-react";
+import { redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
 
 export default function Home() {
@@ -23,7 +24,7 @@ export default function Home() {
 
 async function Posts() {
   const user = await currentUser();
-  if (!user) throw new Error("User not found");
+  if (!user) redirect("/onboarding");
   const likedPosts = await db.query.likes
     .findMany({
       where: (table, { eq }) => eq(table.userId, user.id),

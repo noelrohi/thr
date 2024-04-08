@@ -2,7 +2,7 @@ import { currentUser } from "@/auth";
 import { Post } from "@/components/thread/server";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 interface PageProps {
   params: {
@@ -58,7 +58,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   });
   if (!post) notFound();
   const user = await currentUser();
-  if (!user) throw new Error("User not found");
+  if (!user) redirect("/onboarding");
   const likedPost = await db.query.likes.findFirst({
     where: (table, { eq, and }) =>
       and(eq(table.postId, post.id), eq(table.userId, user.id)),

@@ -50,7 +50,7 @@ export default async function StickyLayout({ children }: StickyLayoutProps) {
 
 async function CreateThread() {
   const user = await currentUser();
-  if (!user) throw new Error("User not found");
+  if (!user) redirect("/onboarding");
   return (
     <>
       <DialogProvider>

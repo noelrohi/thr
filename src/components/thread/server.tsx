@@ -16,6 +16,7 @@ import { toRelativeTime } from "@/lib/utils";
 import type { PostWithLikesAndReplies } from "@/types";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export function Post({
@@ -92,7 +93,7 @@ export function Post({
 
 async function ReplyToThread({ post }: { post: PostWithLikesAndReplies }) {
   const user = await currentUser();
-  if (!user) throw new Error("User not logged in");
+  if (!user) redirect("/onboarding");
   return (
     <DialogProvider>
       <DialogTrigger asChild>
