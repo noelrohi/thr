@@ -22,7 +22,7 @@ export default async function Page() {
   );
 }
 
-export function SignInDialog() {
+function SignInDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>

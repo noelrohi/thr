@@ -3,14 +3,6 @@ import type { users } from "@/db/schema/auth";
 import type { likes, posts, userDetails } from "@/db/schema/main";
 import type { InferSelectModel } from "drizzle-orm";
 
-export type NavItem = {
-  title: string;
-  href: string;
-  disabled?: boolean;
-};
-
-export type MainNavItem = NavItem;
-
 export type SiteConfig = {
   name: string;
   description: string;
@@ -19,10 +11,6 @@ export type SiteConfig = {
     twitter: string;
     github: string;
   };
-  mainNav: {
-    title: string;
-    href: string;
-  }[];
 };
 
 export type UserWithDetails = NonNullable<

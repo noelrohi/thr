@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { ThemeProvider } from "@/components/providers/theme";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
@@ -26,13 +27,14 @@ export default function RootLayout({
         className={cn(
           fontMono.variable,
           fontSans.variable,
-          "min-h-screen bg-background font-sans antialiased",
+          "relativemin-h-screen bg-background font-sans antialiased",
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <TailwindIndicator />
           <Toaster />
+          <ThemeToggle className="absolute right-2 bottom-2" />
         </ThemeProvider>
       </body>
     </html>
