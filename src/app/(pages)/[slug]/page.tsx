@@ -50,7 +50,6 @@ export default async function Page({ params, searchParams }: PageProps) {
   const followedByCurrentUser = user.followers.some(
     (f) => f.followerId === authUser.userId,
   );
-  console.log(user.username, slug);
   return (
     <section className="space-y-2">
       <div className="flex items-center justify-between py-4">

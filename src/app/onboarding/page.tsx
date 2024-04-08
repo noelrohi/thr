@@ -18,7 +18,6 @@ export default async function Page() {
   const userDetails = await db.query.userDetails.findFirst({
     where: (table, { eq }) => eq(table.userId, session.user.id),
   });
-  console.log("here at onboarding");
   if (userDetails?.username != null) redirect("/");
   return (
     <>

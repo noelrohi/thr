@@ -93,14 +93,6 @@ export function ActiveLink({
   );
 }
 
-export function AddRelatedThread({ avatar }: { avatar: React.ReactNode }) {
-  const searchParams = useSearchParams();
-  const [replyCount, setReplyCount] = useState(0);
-  const inputLength = Number(searchParams.get(`length.${replyCount}`));
-  console.log({ inputLength, replyCount });
-  return <></>;
-}
-
 type CreateThreadInputProps = React.ComponentPropsWithoutRef<typeof Input>;
 
 export function CreateThreadInput({
@@ -126,7 +118,6 @@ interface FormValues {
 
 export function ThreadFormInputs({ user }: { user: UserWithDetails }) {
   const { setOpen, open } = useDialog();
-  console.log({ open });
   const form = useForm<FormValues>({
     defaultValues: {
       post: [{ text: "" }],
@@ -281,7 +272,6 @@ export function ReplyForm({
   user: UserWithDetails;
 }) {
   const { setOpen, open } = useDialog();
-  console.log({ open });
   const form = useForm<FormValues>({
     defaultValues: {
       post: [{ text: "" }],

@@ -44,7 +44,6 @@ async function Posts() {
       },
     },
   });
-  console.log(posts[0].user.image);
   return (
     <div className="space-y-2" key={Math.random()}>
       {posts.map((post) => (
