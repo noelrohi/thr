@@ -1,35 +1,22 @@
+import { currentUser } from "@/auth";
 import { LikeControl } from "@/components/like-control";
 import { ThreadActionsProvider } from "@/components/providers/control";
+import { DialogProvider } from "@/components/providers/dialog";
 import { CopyItem, LikesAndReplies } from "@/components/thread/interactive";
+import { DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
-import type { users } from "@/db/schema/auth";
-import type { likes, posts, userDetails } from "@/db/schema/main";
-import { absoluteUrl, toRelativeTime } from "@/lib/utils";
-import type { InferSelectModel } from "drizzle-orm";
+import { toRelativeTime } from "@/lib/utils";
+import type { PostWithLikesAndReplies } from "@/types";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
-
-interface PostWithLikesAndReplies extends InferSelectModel<typeof posts> {
-  likes: Array<InferSelectModel<typeof likes>>;
-  replies: Array<InferSelectModel<typeof posts>>;
-  user: InferSelectModel<typeof users> & {
-    details: InferSelectModel<typeof userDetails> | null;
-  };
-  parent?:
-    | (InferSelectModel<typeof posts> & {
-        user: InferSelectModel<typeof users> & {
-          details: InferSelectModel<typeof userDetails> | null;
-        };
-      })
-    | null;
-}
+import { Suspense } from "react";
+import { ReplyForm } from "@/components/interactive";
 
 export function Post({
   post,
@@ -74,9 +61,11 @@ export function Post({
             likes={post.likes.length}
             replies={post.replies.length}
           >
-            <div className="flex gap-2">
+            <div className="flex gap-4">
               <LikeControl isLiked={isLiked || false} postId={post.id} />
-              <MessageCircle className="size-5" />
+              <Suspense fallback={<MessageCircle className="size-5" />}>
+                <ReplyToThread post={post} />
+              </Suspense>
               <Repeat className="size-5" />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -98,5 +87,20 @@ export function Post({
         </div>
       </div>
     </>
+  );
+}
+
+async function ReplyToThread({ post }: { post: PostWithLikesAndReplies }) {
+  const user = await currentUser();
+  if (!user) throw new Error("User not logged in");
+  return (
+    <DialogProvider>
+      <DialogTrigger asChild>
+        <MessageCircle className="size-5" />
+      </DialogTrigger>
+      <DialogContent className="max-h-[80vh] overflow-auto">
+        <ReplyForm user={user} post={post} />
+      </DialogContent>
+    </DialogProvider>
   );
 }

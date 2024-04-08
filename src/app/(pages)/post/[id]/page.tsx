@@ -68,7 +68,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const moreReplies = post.parent?.replies.filter((r) => r.id !== post.id);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" key={Math.random()}>
       <Post
         post={post}
         type="expand"

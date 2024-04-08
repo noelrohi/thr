@@ -37,3 +37,19 @@ export interface PostDetails extends InferSelectModel<typeof posts> {
   likes: Array<InferSelectModel<typeof likes>>;
   replies: Array<InferSelectModel<typeof posts>>;
 }
+
+export interface PostWithLikesAndReplies
+  extends InferSelectModel<typeof posts> {
+  likes: Array<InferSelectModel<typeof likes>>;
+  replies: Array<InferSelectModel<typeof posts>>;
+  user: InferSelectModel<typeof users> & {
+    details: InferSelectModel<typeof userDetails> | null;
+  };
+  parent?:
+    | (InferSelectModel<typeof posts> & {
+        user: InferSelectModel<typeof users> & {
+          details: InferSelectModel<typeof userDetails> | null;
+        };
+      })
+    | null;
+}

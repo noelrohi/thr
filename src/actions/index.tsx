@@ -25,13 +25,14 @@ const createPostSchema = z.object({
 export async function createThread(
   values: Array<Omit<typeof posts.$inferInsert, "userId">>,
   path: string,
+  parentId?: number,
 ) {
   try {
     const session = await auth();
     if (!session) return { message: "Unauthorized", success: false };
-    const userId = session.user.id;
     await db.transaction(async (tx) => {
       const parentIds: Array<number> = [];
+      if (parentId) parentIds.push(parentId);
       for (const post of values) {
         const [{ id }] = await tx
           .insert(posts)
