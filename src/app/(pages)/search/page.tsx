@@ -96,7 +96,7 @@ async function UserList({ q }: typeof spSchema._output) {
                       name="userToFollowId"
                       value={user.userId}
                     />
-                    <SubmitButton size="sm">
+                    <SubmitButton size="sm" variant="outline">
                       {isFollowedByCurrentUser ? "Unfollow" : "Follow"}
                     </SubmitButton>
                   </Form>
