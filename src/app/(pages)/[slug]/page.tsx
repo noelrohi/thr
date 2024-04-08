@@ -21,7 +21,7 @@ type PageProps = {
 export default async function Page({ params, searchParams }: PageProps) {
   let slug = params.slug;
   const authUser = await currentUser();
-  if (!authUser) throw new Error("User not found");
+  if (!authUser) redirect("/onboarding");
   if (params.slug === "%40me") {
     slug = authUser.username;
   }
