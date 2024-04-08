@@ -65,6 +65,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   });
 
   const parentPost = post.parent;
+  const moreReplies = post.parent?.replies.filter((r) => r.id !== post.id);
 
   return (
     <div className="space-y-2">
@@ -91,25 +92,27 @@ export default async function Page({ params, searchParams }: PageProps) {
           }}
         />
       ))}
-      {parentPost && parentPost.replies.length > 0 && (
+      {parentPost && moreReplies && moreReplies.length > 0 && (
         <>
           <Separator />
           <div className="flex flex-col">
             <div className="font-bold">
               More replies to {parentPost.user?.details?.username}
             </div>
-            {parentPost.replies.map((reply) => (
-              <Post
-                key={reply.id}
-                post={reply}
-                isLiked={false}
-                avatarProps={{
-                  src: reply.user?.image ?? "",
-                  alt: reply.user?.details?.username || "@anonymous",
-                  fallback: reply.user?.details?.username || "G",
-                }}
-              />
-            ))}
+            {moreReplies
+              .filter((r) => r.id !== post.id)
+              .map((reply) => (
+                <Post
+                  key={reply.id}
+                  post={reply}
+                  isLiked={false}
+                  avatarProps={{
+                    src: reply.user?.image ?? "",
+                    alt: reply.user?.details?.username || "@anonymous",
+                    fallback: reply.user?.details?.username || "G",
+                  }}
+                />
+              ))}
           </div>
         </>
       )}
