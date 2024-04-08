@@ -1,3 +1,8 @@
+import type { currentUser } from "@/auth";
+import type { users } from "@/db/schema/auth";
+import type { likes, posts, userDetails } from "@/db/schema/main";
+import type { InferSelectModel } from "drizzle-orm";
+
 export type NavItem = {
   title: string;
   href: string;
@@ -19,3 +24,16 @@ export type SiteConfig = {
     href: string;
   }[];
 };
+
+export type UserWithDetails = NonNullable<
+  Awaited<ReturnType<typeof currentUser>>
+>;
+
+interface User extends InferSelectModel<typeof users> {
+  details: InferSelectModel<typeof userDetails> | null;
+}
+export interface PostDetails extends InferSelectModel<typeof posts> {
+  user: User | null;
+  likes: Array<InferSelectModel<typeof likes>>;
+  replies: Array<InferSelectModel<typeof posts>>;
+}

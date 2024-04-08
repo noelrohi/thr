@@ -1,5 +1,8 @@
+import { currentUser } from "@/auth";
+import { Post } from "@/components/thread/server";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
 
 export default function Home() {
   return (
@@ -12,11 +15,38 @@ export default function Home() {
 }
 
 async function Posts() {
-  const posts = await db.query.posts.findMany();
+  const user = await currentUser();
+  if (!user) throw new Error("User not found");
+  const likedPosts = await db.query.likes
+    .findMany({
+      where: (table, { eq }) => eq(table.userId, user.id),
+    })
+    .then((p) => p.map((p) => p.postId));
+
+  const posts = await db.query.posts.findMany({
+    where: (table, { isNull }) => isNull(table.parentId),
+    orderBy: (table, { desc }) => desc(table.createdAt),
+    with: {
+      likes: true,
+      replies: true,
+      user: {
+        with: {
+          details: true,
+        },
+      },
+    },
+  });
   return (
-    <div>
-      {posts.map((post) => (
-        <div key={post.id}>{post.text}</div>
+    <div className="space-y-2">
+      {[...posts, ...posts, ...posts].map((post) => (
+        <Fragment key={post.id}>
+          <Post
+            post={post}
+            isLiked={likedPosts.some((p) => p === post.id)}
+            currentUser={user}
+          />
+          <Separator />
+        </Fragment>
       ))}
     </div>
   );

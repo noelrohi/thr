@@ -17,11 +17,25 @@ export const posts = projectTable(
   }),
 );
 
+export const likes = projectTable(
+  "likes",
+  {
+    id: serial("id").notNull().primaryKey(),
+    postId: bigint("post_id", { mode: "number" }).notNull(),
+    userId: text("user_id").notNull(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),
+  },
+  (table) => ({
+    postIdIdx: index("postId").on(table.postId),
+  }),
+);
+
 export const userDetails = projectTable("user_details", {
   id: serial("id").notNull().primaryKey(),
   userId: text("user_id").notNull(),
   fullName: text("full_name").notNull(),
-  username: text("username").notNull(),
+  username: text("username").notNull().unique(),
   bio: text("bio"),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),

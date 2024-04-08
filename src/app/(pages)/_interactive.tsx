@@ -1,28 +1,32 @@
 "use client";
 
-import type { currentUser } from "@/auth";
 import { Button } from "@/components/ui/button";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  Form as RHForm,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { UserAvatar } from "@/components/user-avatar";
+import { useDialog } from "@/hooks/use-dialog";
+import type { UserWithDetails } from "@/types";
 import { cn } from "@/lib/utils";
 import { Loader2, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import { createPost, createThread, updateUserDetails } from "./_actions";
-import { UserAvatar } from "@/components/user-avatar";
-import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import {
-  Form as RHForm,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  createPost,
+  createThread,
+  likePost,
+  updateUserDetails,
+} from "./_actions";
 
 interface FormProps extends React.ComponentPropsWithoutRef<"form"> {
   actionString: keyof typeof formActions;
@@ -31,6 +35,7 @@ interface FormProps extends React.ComponentPropsWithoutRef<"form"> {
 const formActions = {
   createPost,
   updateUserDetails,
+  likePost,
 } as const;
 
 export function Form({ children, actionString, ...props }: FormProps) {
@@ -72,7 +77,11 @@ export function ActiveLink({
   return (
     <Link
       {...props}
-      className={cn(className, pathname !== props.href && "opacity-75")}
+      className={cn(
+        "inline-flex flex-1 items-center hover:bg-border",
+        className,
+        pathname !== props.href && "opacity-75",
+      )}
     >
       {children}
     </Link>
@@ -110,11 +119,9 @@ interface FormValues {
   }>;
 }
 
-export function ThreadFormInputs({
-  user,
-}: {
-  user: NonNullable<Awaited<ReturnType<typeof currentUser>>>;
-}) {
+export function ThreadFormInputs({ user }: { user: UserWithDetails }) {
+  const { setOpen, open } = useDialog();
+  console.log({ open });
   const form = useForm<FormValues>({
     defaultValues: {
       post: [{ text: "" }],
@@ -141,6 +148,7 @@ export function ThreadFormInputs({
             const { success, message } = await createThread(data.post, path);
             if (success) {
               toast.success(message);
+              setOpen(false);
             } else {
               toast.error(message);
             }

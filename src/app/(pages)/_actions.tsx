@@ -2,8 +2,10 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { posts, userDetails } from "@/db/schema/main";
+import { likes, posts, userDetails } from "@/db/schema/main";
+import { unkey } from "@/lib/unkey";
 import { decode } from "decode-formdata";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -28,7 +30,20 @@ export async function createThread(
     const session = await auth();
     if (!session) return { message: "Unauthorized", success: false };
     const userId = session.user.id;
-    await db.insert(posts).values(values.map((v) => ({ ...v, userId })));
+    await db.transaction(async (tx) => {
+      const parentIds: Array<number> = [];
+      for (const post of values) {
+        const [{ id }] = await tx
+          .insert(posts)
+          .values({
+            text: post.text,
+            userId: session.user.id,
+            parentId: parentIds.length ? parentIds[parentIds.length - 1] : null,
+          })
+          .returning();
+        parentIds.push(id);
+      }
+    });
     revalidatePath(path);
     return { message: "Thread created successfully", success: true };
   } catch (error) {
@@ -106,5 +121,52 @@ export async function updateUserDetails(
   } catch (error) {
     console.error(error);
     return { message: "Error updating user details", success: false };
+  }
+}
+
+const likePostSchema = z.object({
+  isLiked: z.coerce.boolean(),
+  postId: z.number(),
+  pathname: z.string(),
+});
+
+export async function likePost(
+  prevState: State,
+  formData: FormData,
+): Promise<State> {
+  const session = await auth();
+  if (!session) return { message: "Unauthorized", success: false };
+
+  const formValues = decode(formData, {
+    numbers: ["postId"],
+    booleans: ["isLiked"],
+  });
+  const parse = likePostSchema.safeParse(formValues);
+  if (!parse.success) return { message: "Invalid form data", success: false };
+  const { isLiked, postId, pathname } = parse.data;
+  const { success } = await unkey.limit(session.user.id + postId);
+  if (!success)
+    return { message: "You have exceeded your rate limit", success: false };
+  try {
+    const userId = session.user.id;
+    if (isLiked) {
+      console.log(`Unliking post ${postId}`);
+      await db
+        .delete(likes)
+        .where(and(eq(likes.postId, postId), eq(likes.userId, userId)));
+    } else {
+      console.log(`Liking post ${postId}`);
+      await db.insert(likes).values({
+        postId,
+        userId,
+      });
+    }
+    revalidatePath(pathname);
+  } catch (error) {
+    console.error(error);
+    return {
+      message: `Error ${isLiked ? "unliking" : "liking"} post`,
+      success: false,
+    };
   }
 }
