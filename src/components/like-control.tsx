@@ -1,18 +1,11 @@
 "use client";
 
-import { likePost } from "@/app/(pages)/_actions";
-import { Form } from "@/app/(pages)/_interactive";
+import { likePost } from "@/actions";
 import { useControl } from "@/hooks/use-control";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  useActionState,
-  useEffect,
-  useOptimistic,
-  useState,
-  useTransition,
-} from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useOptimistic, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 export function LikeControl({

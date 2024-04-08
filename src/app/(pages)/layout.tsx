@@ -1,12 +1,12 @@
 import { auth, currentUser } from "@/auth";
 import { ThreadIcon } from "@/components/icons";
+import { ActiveLink, ThreadFormInputs } from "@/components/interactive";
 import { DialogProvider } from "@/components/providers/dialog";
 import { DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { db } from "@/db";
 import { Edit, Heart, Home, Search, User2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { ActiveLink, ThreadFormInputs } from "./_interactive";
 
 interface StickyLayoutProps {
   children: React.ReactNode;

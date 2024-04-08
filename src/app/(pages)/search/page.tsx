@@ -1,19 +1,12 @@
-import { Input } from "@/components/ui/input";
-import { Loader2, SearchIcon } from "lucide-react";
-import { redirect } from "next/navigation";
-import { InputWithKeyUp } from "./search-input";
-import { Fragment, Suspense } from "react";
-import { z } from "zod";
-import { db } from "@/db";
+import { InputWithKeyUp } from "@/app/(pages)/search/search-input";
+import { auth } from "@/auth";
+import { Form, SubmitButton } from "@/components/interactive";
 import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
-import { eq, sql } from "drizzle-orm";
-import { userDetails } from "@/db/schema/main";
-import { boolean } from "drizzle-orm/pg-core";
-import { followOrUnfollow } from "../_actions";
-import { Form, SubmitButton } from "../_interactive";
+import { db } from "@/db";
+import { Loader2, SearchIcon } from "lucide-react";
+import { Fragment, Suspense } from "react";
+import { z } from "zod";
 
 const spSchema = z.object({
   q: z.string().optional(),

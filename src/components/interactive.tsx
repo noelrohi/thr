@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  createPost,
+  createThread,
+  followOrUnfollow,
+  likePost,
+  updateUserDetails,
+} from "@/actions";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -21,13 +28,6 @@ import { useEffect, useState, useTransition } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  createPost,
-  createThread,
-  followOrUnfollow,
-  likePost,
-  updateUserDetails,
-} from "./_actions";
 
 interface FormProps extends React.ComponentPropsWithoutRef<"form"> {
   actionString: keyof typeof formActions;

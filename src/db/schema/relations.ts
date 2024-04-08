@@ -13,6 +13,8 @@ export const usersRelations = relations(users, ({ many, one }) => ({
 export const followersRelations = relations(followers, ({ one }) => ({
   follower: one(userDetails, {
     fields: [followers.userId],
+    // this should be userDetails.followerid
+    // but for some reason userDetailsRelations.followers is looking up into userDetails.userId
     references: [userDetails.userId],
   }),
 }));

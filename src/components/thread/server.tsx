@@ -1,6 +1,13 @@
 import { LikeControl } from "@/components/like-control";
 import { ThreadActionsProvider } from "@/components/providers/control";
 import { CopyItem, LikesAndReplies } from "@/components/thread/interactive";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
 import type { users } from "@/db/schema/auth";
 import type { likes, posts, userDetails } from "@/db/schema/main";
@@ -8,13 +15,6 @@ import { absoluteUrl, toRelativeTime } from "@/lib/utils";
 import type { InferSelectModel } from "drizzle-orm";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface PostWithLikesAndReplies extends InferSelectModel<typeof posts> {
   likes: Array<InferSelectModel<typeof likes>>;

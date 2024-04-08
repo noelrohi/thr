@@ -1,4 +1,5 @@
-import { auth, currentUser } from "@/auth";
+import { auth } from "@/auth";
+import { Form, SubmitButton } from "@/components/interactive";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import { Form, SubmitButton } from "../(pages)/_interactive";
 
 export default async function Page() {
   const session = await auth();
