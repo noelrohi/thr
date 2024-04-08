@@ -1,4 +1,5 @@
 import { currentUser } from "@/auth";
+import { ReplyForm } from "@/components/interactive";
 import { LikeControl } from "@/components/like-control";
 import { ThreadActionsProvider } from "@/components/providers/control";
 import { DialogProvider } from "@/components/providers/dialog";
@@ -16,7 +17,6 @@ import type { PostWithLikesAndReplies } from "@/types";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ReplyForm } from "@/components/interactive";
 
 export function Post({
   post,
