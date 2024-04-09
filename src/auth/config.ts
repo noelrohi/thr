@@ -1,9 +1,9 @@
 import { pgDrizzleAdapter as DrizzleAdapter } from "@/auth/adapter";
-import type { DefaultSession } from "@auth/core/types";
-import type { NextAuthConfig } from "next-auth";
 import { db, tableCreator } from "@/db";
 import { env } from "@/env";
 import type { Adapter } from "@auth/core/adapters";
+import type { DefaultSession } from "@auth/core/types";
+import type { NextAuthConfig } from "next-auth";
 
 declare module "next-auth" {
   interface Session {

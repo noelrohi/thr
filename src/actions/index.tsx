@@ -2,7 +2,8 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { followers, likes, posts, userDetails } from "@/db/schema/main";
+import { users } from "@/db/schema/auth";
+import { followers, likes, posts } from "@/db/schema/main";
 import { unkey } from "@/lib/unkey";
 import { decode } from "decode-formdata";
 import { and, eq } from "drizzle-orm";
@@ -110,13 +111,14 @@ export async function updateUserDetails(
   try {
     const formValues = decode(formData);
     const { userId, fullname, username, bio } = updateSchema.parse(formValues);
-    const valuesToInsert: typeof userDetails.$inferInsert = {
-      fullName: fullname,
-      username,
-      bio,
-      userId,
-    };
-    await db.insert(userDetails).values(valuesToInsert);
+    await db
+      .update(users)
+      .set({
+        name: fullname,
+        username,
+        bio,
+      })
+      .where(eq(users.id, userId));
     revalidatePath("/onboarding");
     return { message: "User details updated successfully", success: true };
   } catch (error) {

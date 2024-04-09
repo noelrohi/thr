@@ -1,16 +1,16 @@
 import { and, eq } from "drizzle-orm";
 import {
-  timestamp,
-  pgTable as defaultPgTableFn,
-  text,
-  primaryKey,
-  integer,
-  type PgTableFn,
   type PgDatabase,
+  type PgTableFn,
+  pgTable as defaultPgTableFn,
+  integer,
+  primaryKey,
+  text,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
-import type { Adapter, AdapterAccount, AdapterUser } from "@auth/core/adapters";
 import { stripUndefined } from "@/lib/utils";
+import type { Adapter, AdapterAccount, AdapterUser } from "@auth/core/adapters";
 import type { Awaitable } from "@auth/core/types";
 
 type CustomAdapter = Omit<Adapter, "createUser"> & {

@@ -31,16 +31,6 @@ export const likes = projectTable(
   }),
 );
 
-export const userDetails = projectTable("user_details", {
-  id: serial("id").notNull().primaryKey(),
-  userId: text("user_id").notNull(),
-  fullName: text("full_name").notNull(),
-  username: text("username").notNull().unique(),
-  bio: text("bio"),
-  createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date()),
-});
-
 export const savedPosts = projectTable("saved_posts", {
   id: serial("id").notNull().primaryKey(),
   postId: bigint("post_id", { mode: "number" }).notNull(),

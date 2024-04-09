@@ -58,16 +58,3 @@ export const {
 } = authResult;
 
 export const auth = cache(authResult.auth);
-export const currentUser = cache(async () => {
-  const session = await authResult.auth();
-  if (!session) return null;
-  const details = await db.query.userDetails.findFirst({
-    where: (table, { eq }) => eq(table.userId, session.user.id),
-  });
-  if (!details) return null;
-
-  return {
-    ...details,
-    ...session.user,
-  };
-});

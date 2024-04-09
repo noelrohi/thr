@@ -1,4 +1,4 @@
-import { currentUser, signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { Form, SubmitButton } from "@/components/interactive";
 import { Post } from "@/components/thread/server";
 import { Button } from "@/components/ui/button";
@@ -20,49 +20,41 @@ type PageProps = {
 
 export default async function Page({ params, searchParams }: PageProps) {
   let slug = params.slug;
-  const authUser = await currentUser();
-  if (!authUser) redirect("/onboarding");
+  const session = await auth();
+  if (!session) throw new Error("User not found");
   if (params.slug === "%40me") {
-    slug = authUser.username;
+    slug = session.user.username;
   }
-  const user = await db.query.userDetails.findFirst({
+  const user = await db.query.users.findFirst({
     where: (table, { eq }) => eq(table.username, slug),
     with: {
       followers: true,
-      user: {
+      posts: {
         with: {
-          posts: {
-            with: {
-              likes: true,
-              replies: true,
-              user: {
-                with: {
-                  details: true,
-                },
-              },
-            },
-          },
+          likes: true,
+          replies: true,
+          user: true,
         },
       },
     },
   });
   if (!user) throw new Error("User not found");
   const followedByCurrentUser = user.followers.some(
-    (f) => f.followerId === authUser.userId,
+    (f) => f.followerId === session.user.id,
   );
   return (
     <section className="space-y-2">
       <div className="flex items-center justify-between py-4">
         <div>
           <div>
-            <h1 className="font-bold text-2xl">{user.fullName}</h1>
+            <h1 className="font-bold text-2xl">{user.name}</h1>
             <div>{user.username}</div>
           </div>
         </div>
         <div>
           <UserAvatar
             className="size-16"
-            src={user.user.image ?? ""}
+            src={user.image ?? ""}
             alt={user.username}
           />
         </div>
@@ -83,7 +75,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           </button>
         </form>
       </div>
-      {authUser.userId === user.userId ? (
+      {session.user.id === user.id ? (
         <Button type="button" className="w-full" variant="outline">
           Edit Profile
         </Button>
@@ -94,7 +86,7 @@ export default async function Page({ params, searchParams }: PageProps) {
             name="isFollowedByCurrentUser"
             value={String(followedByCurrentUser)}
           />
-          <input type="hidden" name="userToFollowId" value={user.userId} />
+          <input type="hidden" name="userToFollowId" value={user.id} />
           <SubmitButton type="submit" className="w-full" variant="outline">
             {followedByCurrentUser ? "Unfollow" : "Follow"}
           </SubmitButton>
@@ -111,13 +103,13 @@ export default async function Page({ params, searchParams }: PageProps) {
           Reposts
         </button>
       </div>
-      {user.user.posts.map((post) => (
+      {user.posts.map((post) => (
         <Fragment key={post.id}>
           <Post
             post={post}
             avatarProps={{
               src: post.user?.image ?? "",
-              alt: post.user?.details?.username || "@anonymous",
+              alt: post.user?.username || "@anonymous",
             }}
           />
           <Separator />

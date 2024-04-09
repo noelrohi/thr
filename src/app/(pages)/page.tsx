@@ -1,9 +1,8 @@
-import { currentUser } from "@/auth";
+import { auth } from "@/auth";
 import { Post } from "@/components/thread/server";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
 
 export default function Home() {
@@ -23,11 +22,11 @@ export default function Home() {
 }
 
 async function Posts() {
-  const user = await currentUser();
-  if (!user) redirect("/onboarding");
+  const session = await auth();
+  if (!session) throw new Error("User not found");
   const likedPosts = await db.query.likes
     .findMany({
-      where: (table, { eq }) => eq(table.userId, user.id),
+      where: (table, { eq }) => eq(table.userId, session.user.id),
     })
     .then((p) => p.map((p) => p.postId));
 
@@ -38,11 +37,7 @@ async function Posts() {
     with: {
       likes: true,
       replies: true,
-      user: {
-        with: {
-          details: true,
-        },
-      },
+      user: true,
     },
   });
   return (
@@ -55,8 +50,8 @@ async function Posts() {
             isLiked={likedPosts.some((p) => p === post.id)}
             avatarProps={{
               src: post.user?.image ?? "",
-              alt: post.user?.details?.username || "@anonymous",
-              fallback: post.user?.details?.username.at(0) || "G",
+              alt: post.user?.username || "@anonymous",
+              fallback: post.user?.username.at(0) || "G",
             }}
           />
           <Separator />
