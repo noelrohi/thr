@@ -8,6 +8,8 @@ export const users = projectTable("user", {
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  username: text("username").unique().notNull(),
+  bio: text("bio"),
 });
 
 export const accounts = projectTable(

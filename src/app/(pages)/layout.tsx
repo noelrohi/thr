@@ -1,4 +1,4 @@
-import { auth, currentUser } from "@/auth";
+import { auth } from "@/auth";
 import { ThreadIcon } from "@/components/icons";
 import { ActiveLink, ThreadFormInputs } from "@/components/interactive";
 import { DialogProvider } from "@/components/providers/dialog";
@@ -15,10 +15,6 @@ interface StickyLayoutProps {
 export default async function StickyLayout({ children }: StickyLayoutProps) {
   const session = await auth();
   if (!session) redirect("/signin");
-  const userDetails = await db.query.userDetails.findFirst({
-    where: (table, { eq }) => eq(table.userId, session.user.id),
-  });
-  if (userDetails?.username == null) redirect("/onboarding");
   return (
     <div className="relative mx-auto flex h-screen max-w-[35rem] flex-col py-4">
       <ThreadIcon className="mx-auto size-9" />
@@ -49,8 +45,8 @@ export default async function StickyLayout({ children }: StickyLayoutProps) {
 }
 
 async function CreateThread() {
-  const user = await currentUser();
-  if (!user) redirect("/onboarding");
+  const session = await auth();
+  if (!session) throw new Error("User not found");
   return (
     <>
       <DialogProvider>
@@ -60,7 +56,7 @@ async function CreateThread() {
           </div>
         </DialogTrigger>
         <DialogContent className="max-h-[80vh] overflow-auto">
-          <ThreadFormInputs user={user} />
+          <ThreadFormInputs user={session.user} />
         </DialogContent>
       </DialogProvider>
     </>

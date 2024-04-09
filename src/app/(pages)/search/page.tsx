@@ -49,12 +49,10 @@ export default function Search({ searchParams }: PageProps) {
 async function UserList({ q }: typeof spSchema._output) {
   const session = await auth();
   if (!session) throw new Error("User not found");
-  const userList = await db.query.userDetails.findMany({
-    where: (table, { ilike }) =>
-      q ? ilike(table.fullName, `%${q}%`) : undefined,
+  const userList = await db.query.users.findMany({
+    where: (table, { ilike }) => (q ? ilike(table.name, `%${q}%`) : undefined),
     limit: 100,
     with: {
-      user: true,
       followers: true,
     },
   });
@@ -74,16 +72,16 @@ async function UserList({ q }: typeof spSchema._output) {
               <div className="flex gap-4">
                 <UserAvatar
                   className="size-8"
-                  src={user.user.image ?? ""}
+                  src={user.image ?? ""}
                   alt={user.username}
                 />
                 <div>
                   <div>{user.username}</div>
-                  <div className="text-muted-foreground">{user.fullName}</div>
+                  <div className="text-muted-foreground">{user.name}</div>
                   <div>{user.followers.length} followers</div>
                 </div>
               </div>
-              {user.userId !== session.user.id && (
+              {user.id !== session.user.id && (
                 <div className="flex items-center">
                   <Form actionString="followOrUnfollow">
                     <input
@@ -94,7 +92,7 @@ async function UserList({ q }: typeof spSchema._output) {
                     <input
                       type="hidden"
                       name="userToFollowId"
-                      value={user.userId}
+                      value={user.id}
                     />
                     <SubmitButton size="sm" variant="outline">
                       {isFollowedByCurrentUser ? "Unfollow" : "Follow"}

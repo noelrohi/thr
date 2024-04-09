@@ -22,6 +22,7 @@ import { useDialog } from "@/hooks/use-dialog";
 import { cn, toRelativeTime } from "@/lib/utils";
 import type { PostWithLikesAndReplies, UserWithDetails } from "@/types";
 import { Loader2, X } from "lucide-react";
+import type { Session } from "next-auth";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -116,7 +117,7 @@ interface FormValues {
   }>;
 }
 
-export function ThreadFormInputs({ user }: { user: UserWithDetails }) {
+export function ThreadFormInputs({ user }: { user: Session["user"] }) {
   const { setOpen, open } = useDialog();
   const form = useForm<FormValues>({
     defaultValues: {
@@ -318,9 +319,7 @@ export function ReplyForm({
             />
             <div className="flex flex-col">
               <div className="flex gap-2">
-                <div className="font-semibold">
-                  {post.user.details?.username}
-                </div>
+                <div className="font-semibold">{post.user?.username}</div>
                 <span className="text-muted-foreground">
                   {toRelativeTime(post.createdAt)}
                 </span>

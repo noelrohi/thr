@@ -1,8 +1,8 @@
-import { currentUser } from "@/auth";
+import { auth } from "@/auth";
 import { Post } from "@/components/thread/server";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 interface PageProps {
   params: {
@@ -21,47 +21,31 @@ export default async function Page({ params, searchParams }: PageProps) {
         with: {
           likes: true,
           replies: true,
-          user: {
-            with: {
-              details: true,
-            },
-          },
+          user: true,
         },
       },
-      user: {
-        with: {
-          details: true,
-        },
-      },
+      user: true,
       parent: {
         with: {
           replies: {
             with: {
               likes: true,
               replies: true,
-              user: {
-                with: {
-                  details: true,
-                },
-              },
+              user: true,
             },
           },
-          user: {
-            with: {
-              details: true,
-            },
-          },
+          user: true,
         },
       },
       likes: true,
     },
   });
   if (!post) notFound();
-  const user = await currentUser();
-  if (!user) redirect("/onboarding");
+  const session = await auth();
+  if (!session) throw new Error("User not found");
   const likedPost = await db.query.likes.findFirst({
     where: (table, { eq, and }) =>
-      and(eq(table.postId, post.id), eq(table.userId, user.id)),
+      and(eq(table.postId, post.id), eq(table.userId, session.user.id)),
   });
 
   const parentPost = post.parent;
@@ -75,8 +59,8 @@ export default async function Page({ params, searchParams }: PageProps) {
         isLiked={!!likedPost}
         avatarProps={{
           src: post.user?.image ?? "",
-          alt: post.user?.details?.username || "@anonymous",
-          fallback: post.user?.details?.username || "G",
+          alt: post.user?.username || "@anonymous",
+          fallback: post.user?.username || "G",
         }}
       />
       {post.replies.length > 0 && <Separator />}
@@ -87,8 +71,8 @@ export default async function Page({ params, searchParams }: PageProps) {
           isLiked={false}
           avatarProps={{
             src: reply.user?.image ?? "",
-            alt: reply.user?.details?.username || "@anonymous",
-            fallback: reply.user?.details?.username || "G",
+            alt: reply.user?.username || "@anonymous",
+            fallback: reply.user?.username || "G",
           }}
         />
       ))}
@@ -97,7 +81,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           <Separator />
           <div className="flex flex-col">
             <div className="font-bold">
-              More replies to {parentPost.user?.details?.username}
+              More replies to {parentPost.user?.username}
             </div>
             {moreReplies
               .filter((r) => r.id !== post.id)
@@ -108,8 +92,8 @@ export default async function Page({ params, searchParams }: PageProps) {
                   isLiked={false}
                   avatarProps={{
                     src: reply.user?.image ?? "",
-                    alt: reply.user?.details?.username || "@anonymous",
-                    fallback: reply.user?.details?.username || "G",
+                    alt: reply.user?.username || "@anonymous",
+                    fallback: reply.user?.username || "G",
                   }}
                 />
               ))}

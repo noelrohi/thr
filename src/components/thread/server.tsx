@@ -1,4 +1,4 @@
-import { currentUser } from "@/auth";
+import { auth } from "@/auth";
 import { ReplyForm } from "@/components/interactive";
 import { LikeControl } from "@/components/like-control";
 import { ThreadActionsProvider } from "@/components/providers/control";
@@ -16,7 +16,6 @@ import { toRelativeTime } from "@/lib/utils";
 import type { PostWithLikesAndReplies } from "@/types";
 import { Info, MessageCircle, Repeat, Send } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export function Post({
@@ -39,10 +38,10 @@ export function Post({
           </div>
         )}
         <div className="flex flex-col gap-2">
-          {post.parent?.user?.details?.username && (
+          {post.parent?.user?.username && (
             <div className="flex items-center gap-1 text-sm">
-              <Info className="size-4" /> A reply to{" "}
-              {post.parent.user.details.username}'s{" "}
+              <Info className="size-4" /> A reply to {post.parent.user.username}
+              's{" "}
               <Link href={`/post/${post.parent.id}`} className="font-semibold">
                 Thread
               </Link>
@@ -52,7 +51,7 @@ export function Post({
             {type !== "list" && (
               <UserAvatar className="size-8" {...avatarProps} />
             )}
-            <div className="font-semibold">{post.user.details?.username}</div>
+            <div className="font-semibold">{post.user?.username}</div>
             <span className="text-muted-foreground">
               {toRelativeTime(post.createdAt)}
             </span>
@@ -92,8 +91,9 @@ export function Post({
 }
 
 async function ReplyToThread({ post }: { post: PostWithLikesAndReplies }) {
-  const user = await currentUser();
-  if (!user) redirect("/onboarding");
+  const session = await auth();
+  if (!session) throw new Error("User not found");
+  const { user } = session;
   return (
     <DialogProvider>
       <DialogTrigger asChild>
