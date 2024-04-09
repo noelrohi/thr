@@ -42,6 +42,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const followedByCurrentUser = user.followers.some(
     (f) => f.followerId === session.user.id,
   );
+  const posts = user.posts.filter((p) => p.parentId === null);
   return (
     <section className="space-y-2">
       <div className="flex items-center justify-between py-4">
@@ -103,7 +104,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           Reposts
         </button>
       </div>
-      {user.posts.map((post) => (
+      {posts.map((post) => (
         <Fragment key={post.id}>
           <Post
             post={post}

@@ -33,9 +33,9 @@ export function Post({
     <>
       <div className="flex gap-2 py-2">
         {type === "list" && (
-          <div>
+          <Link href={`/${post.user.username}`}>
             <UserAvatar className="size-8" {...avatarProps} />
-          </div>
+          </Link>
         )}
         <div className="flex flex-col gap-2">
           {post.parent?.user?.username && (
@@ -49,9 +49,13 @@ export function Post({
           )}
           <div className="flex gap-2">
             {type !== "list" && (
-              <UserAvatar className="size-8" {...avatarProps} />
+              <Link href={`/${post.user.username}`}>
+                <UserAvatar className="size-8" {...avatarProps} />
+              </Link>
             )}
-            <div className="font-semibold">{post.user?.username}</div>
+            <Link href={`/${post.user.username}`} className="font-semibold">
+              {post.user.username}
+            </Link>
             <span className="text-muted-foreground">
               {toRelativeTime(post.createdAt)}
             </span>

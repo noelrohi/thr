@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { UserAvatar } from "@/components/user-avatar";
 import { db } from "@/db";
 import { Loader2, SearchIcon } from "lucide-react";
+import Link from "next/link";
 import { Fragment, Suspense } from "react";
 import { z } from "zod";
 
@@ -70,13 +71,17 @@ async function UserList({ q }: typeof spSchema._output) {
           <Fragment key={user.id}>
             <div className="flex justify-between">
               <div className="flex gap-4">
-                <UserAvatar
-                  className="size-8"
-                  src={user.image ?? ""}
-                  alt={user.username}
-                />
+                <Link href={`/${user.username}`}>
+                  <UserAvatar
+                    className="size-8"
+                    src={user.image ?? ""}
+                    alt={user.username}
+                  />
+                </Link>
                 <div>
-                  <div>{user.username}</div>
+                  <Link className="font-semibold" href={`/${user.username}`}>
+                    {user.username}
+                  </Link>
                   <div className="text-muted-foreground">{user.name}</div>
                   <div>{user.followers.length} followers</div>
                 </div>
