@@ -4,12 +4,13 @@
 
 ## Techstack
 
-- [Next.js 14](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Shadcn UI](https://shadcn.com/ui)
-- [Drizzle ORM](https://drizzle-orm.com/)
-- [NeonDB](https://neon-db.com/)
-- [NextAuth](https://next-auth.js.org/)
-- [Lucide Icons](https://lucide.dev/)
-- [Sonner](https://sonner.dev/)
+- [Next.js 14](https://nextjs.org/) - Framework
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [TypeScript](https://www.typescriptlang.org/) - Language
+- [Shadcn UI](https://shadcn.com/ui) - UI library
+- [Drizzle ORM](https://drizzle-orm.com/) - Database ORM
+- [NeonDB](https://neon-db.com/) - Database
+- [NextAuth](https://next-auth.js.org/) - Authentication
+- [Unkey](https://unkey.dev/docs/introduction) - Ratelimit
+- [Sonner](https://sonner.dev/) - Toaster
+- [Lucide](https://lucide.dev/) - Icons
