@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@auth/core": "^0.28.2",
-    "@auth/drizzle-adapter": "^0.8.2",
     "@hookform/resolvers": "^3.3.4",
     "@neondatabase/serverless": "^0.9.0",
     "@radix-ui/react-avatar": "^1.0.4",

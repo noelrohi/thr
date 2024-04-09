@@ -8,9 +8,6 @@ dependencies:
   '@auth/core':
     specifier: ^0.28.2
     version: 0.28.2
-  '@auth/drizzle-adapter':
-    specifier: ^0.8.2
-    version: 0.8.2
   '@hookform/resolvers':
     specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.51.2)
@@ -172,16 +169,6 @@ packages:
       oauth4webapi: 2.10.4
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
-    dev: false
-
-  /@auth/drizzle-adapter@0.8.2:
-    resolution: {integrity: sha512-IrySrHLr427+J5CjiM5fI6XFDmH5R2G7wd4E26z+J64C3t2aegdZdlfMAUerLjeoxAXnMas7bECtOYRO33EfKA==}
-    dependencies:
-      '@auth/core': 0.28.2
-    transitivePeerDependencies:
-      - '@simplewebauthn/browser'
-      - '@simplewebauthn/server'
-      - nodemailer
     dev: false
 
   /@babel/runtime@7.24.4:
