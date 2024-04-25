@@ -1,6 +1,7 @@
 import { env } from "@/env";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import Filter from "bad-words";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -71,4 +72,9 @@ export function stripUndefined<T>(obj: T): Pick<T, NonNullableProps<T>> {
   const result = {} as T;
   for (const key in obj) if (obj[key] !== undefined) result[key] = obj[key];
   return result;
+}
+
+export function removeBadWords(text: string) {
+  const filter = new Filter();
+  return filter.clean(text);
 }
