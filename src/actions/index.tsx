@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema/auth";
 import { followers, likes, posts } from "@/db/schema/main";
 import { unkey } from "@/lib/unkey";
+import { removeBadWords } from "@/lib/utils";
 import { decode } from "decode-formdata";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -38,7 +39,7 @@ export async function createThread(
         const [{ id }] = await tx
           .insert(posts)
           .values({
-            text: post.text,
+            text: removeBadWords(post.text),
             userId: session.user.id,
             parentId: parentIds.length ? parentIds[parentIds.length - 1] : null,
           })
